@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link, Route, BrowserRouter as Router} from 'react-router-dom';
+import CreatePost from './CreatePost';
 import Home from './Home';
 import Login from './Login';
 import './Navbar.css';
@@ -67,6 +68,11 @@ function Navbar() {
                             Posts
                         </Link>
                     </li>
+                    {/* <li className='nav-item'>
+                        <Link to='/createpost' className='nav-links'>
+                            New-Post
+                        </Link>
+                    </li> */}
                     <li className='nav-item'>
                         <Link to='/profile' className='nav-links'>
                             Profile
@@ -83,8 +89,9 @@ function Navbar() {
          <div>
                      <Route exact path='/' component={Home}/>
                      <Route path='/posts' component={Posts}/>
-                     <Route path='/profile' component={Profile}/>                     
-                     <Route path='/signout' component={Signout}/>
+                     <Route path='/profile' component={Profile}/>                    
+                     <Route path='/signout' component={Signout}/>                  
+                     <Route path='/createpost' component={CreatePost}/>
                  </div>
        </Router>
     )
