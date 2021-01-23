@@ -15,7 +15,7 @@ import Signup from './Signup';
 const userAuth=false;
 
 function Navbar() {
-    if(userAuth) {
+    if(!userAuth) {
     return (
         <Router>
          <nav className="navbar">
@@ -35,7 +35,7 @@ function Navbar() {
                          </Link>
                      </li>
                      <li className='nav-item'>
-                         <Link to='/signup' className='nav-links'>
+                         <Link to='/register' className='nav-links'>
                              Sign Up
                          </Link>
                      </li>
@@ -45,7 +45,7 @@ function Navbar() {
          <div>
                      <Route exact path='/' component={Home}/>
                      <Route path='/login' component={Login}/>
-                     <Route path='/signup' component={Signup}/>
+                     <Route path='/register' component={Signup}/>
                  </div>
         </Router>
     )
@@ -64,7 +64,7 @@ function Navbar() {
                         </Link>
                     </li>
                     <li className='nav-item'>
-                        <Link to='/posts' className='nav-links'>
+                        <Link to='/post' className='nav-links'>
                             Posts
                         </Link>
                     </li>
@@ -88,7 +88,7 @@ function Navbar() {
         </nav>
          <div>
                      <Route exact path='/' component={Home}/>
-                     <Route path='/posts' component={Posts}/>
+                     <Route path='/post' component={Posts}/>
                      <Route path='/profile' component={Profile}/>                    
                      <Route path='/signout' component={Signout}/>                  
                      <Route path='/createpost' component={CreatePost}/>
