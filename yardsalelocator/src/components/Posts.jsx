@@ -16,46 +16,60 @@ export default class Posts extends Component {
       loading:true
     }
   }
-  async getUsersData(){
-    const res = await axios.get('https://jsonplaceholder.typicode.com/users')
+
+  async getPostData(){
+    const res = await axios.get('http://localhost:8080/post')
     console.log(res.data)
-    this.setState({loading:false, users: res.data})
+    this.setState({loading:false, post: res.data})
   }
+
   componentDidMount(){
-    this.getUsersData()
+    this.getPostData()
   }
+
   render() {
     const columns = [{  
       Header: 'ID',  
       accessor: 'id',
      }
      ,{  
-      Header: 'Name',  
-      accessor: 'name' ,
-      }
-     
-     ,{  
-     Header: 'Username',  
-     accessor: 'username' ,
-     }
-     ,{  
-     Header: 'Phone',  
-     accessor: 'phone',
+     Header: 'Street Address',  
+     accessor: 'streetAddress',
      },
      {  
-      Header: 'Email',  
-      accessor: 'email',
+      Header: 'City',  
+      accessor: 'city',
       },
       {  
-        Header: 'Website',  
-        accessor: 'website',
-        }
+        Header: 'State',  
+        accessor: 'state',
+        },
+      {  
+        Header: 'Zip Code',  
+        accessor: 'zip',
+        },
+        {  
+          Header: 'Starting Date',  
+          accessor: 'startDate',
+          },
+          {  
+            Header: 'Ending Date',  
+            accessor: 'endDate',
+            },
+          {  
+            Header: 'Starting Time',  
+            accessor: 'startTime',
+            },
+            {  
+              Header: 'Ending Time',  
+              accessor: 'endTime',
+              }
   ]
     return (
-        <> <h1>Yard Sale Postings (Sample Texted Used)</h1>
+        <> <h1>Yard Sale Postings</h1>
         <div style={{width:'80vw'}}>
       <ReactTable  
-      data={this.state.users}  
+      data={this.state.post}  
       columns={columns} 
       defaultPageSize={10}
    />

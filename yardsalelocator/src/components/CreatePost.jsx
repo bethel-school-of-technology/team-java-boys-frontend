@@ -5,11 +5,20 @@ import DatePicker from "react-datepicker";
 
 import "react-time-picker/dist/TimePicker.css";
 import "react-datepicker/dist/react-datepicker.css";
+// import moment from "moment";
 
 export class CreatePost extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			streetAddress: "",
+			city: "",
+			state: "",
+			zip: "",
+			startDate: "",
+			endDate: "",
+			startTime: "",
+			endTime: "",
 		};
 		this.handleStartChange = this.handleStartChange.bind(this);
 		this.handleEndChange = this.handleEndChange.bind(this);
@@ -18,10 +27,35 @@ export class CreatePost extends Component {
 		this.onFormSubmit = this.onFormSubmit.bind(this);
 	}
 
+	handleChange = (event) => {
+		this.setState({ [event.target.name]: event.target.value });
+	};
+
+	handleSubmit = (event) => {
+		event.preventDefault();
+		const url = "http://localhost:8080/post";
+		const data = {
+			streetAddress: this.state.streetAddress,
+			city: this.state.city,
+			state: this.state.state,
+			zip: this.state.zip,
+			startDate: this.state.startDate,
+			endDate: this.state.endDate,
+			startTime: this.state.startTime,
+			endTime: this.state.endTime,
+		};
+		console.log(data);
+		fetch(url, { method: "POST", body: JSON.stringify(data), headers: { "Content-Type": "application/json" } })
+			.then((res) => res.json())
+			.catch((error) => console.error("Error:", error))
+			.then((response) => console.log("Success:", response));
+	};
+
 	handleEndTime(endTime) {
 		this.setState({
 			endTime: endTime,
 		});
+		console.log(endTime)
 	}
 
 	handleStartTime(startTime) {
@@ -33,7 +67,8 @@ export class CreatePost extends Component {
 	handleStartChange(startDate) {
 		this.setState({
 			startDate: startDate,
-		});
+		});		
+		console.log(startDate)
 	}
 
 	handleEndChange(endDate) {
@@ -48,33 +83,33 @@ export class CreatePost extends Component {
 
 	render() {
 		return (
-			<form onSubmit={this.formSubmit}>
+			<form onSubmit={this.handleSubmit}>
 				<label>
 					{" "}
 					Street Address:
-					<input type="text" name="streetAddress" />
+					<input type="text" name="streetAddress" onChange={this.handleChange} />
 				</label>
 				<br />
 				<label>
 					{" "}
 					City:
-					<input type="text" name="city" />
+					<input type="text" name="city" onChange={this.handleChange} />
 				</label>
 				<br />
 				<label>
 					{" "}
 					State:
-					<input type="text" name="state" />
+					<input type="text" name="state" onChange={this.handleChange} />
 				</label>
 				<br />
 				<label>
 					{" "}
 					Zip Code:
-					<input type="text" name="zip" />
+					<input type="text" name="zip" onChange={this.handleChange} />
 				</label>
 				<br />
 
-				<label onClick={e => e.preventDefault()}>
+				<label onClick={(e) => e.preventDefault()}>
 					{" "}
 					Start and End Date:
 					<div>
@@ -92,7 +127,7 @@ export class CreatePost extends Component {
 						/>
 					</div>
 				</label>
-				<label onClick={e => e.preventDefault()}>
+				<label onClick={(e) => e.preventDefault()}>
 					{" "}
 					Start and End Times:
 					<div>
@@ -102,7 +137,7 @@ export class CreatePost extends Component {
 							onChange={this.handleStartTime}
 							showTimeSelect
 							showTimeSelectOnly
-							timeIntervals={30}
+							timeIntervals={60}
 							dateFormat="hh:mm aa"
 						/>
 						<DatePicker
@@ -111,7 +146,7 @@ export class CreatePost extends Component {
 							onChange={this.handleEndTime}
 							showTimeSelect
 							showTimeSelectOnly
-							timeIntervals={30}
+							timeIntervals={60}
 							dateFormat="hh:mm aa"
 						/>
 					</div>
