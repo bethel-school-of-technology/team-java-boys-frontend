@@ -12,7 +12,7 @@ import Signup from './Signup';
 //Navbar is set to return one format if user is logged in, and another if user is not logged in. ~Ray
 //NEED boolean from authentication page to set user status, below on line 8 is a manual set for now. ~Ray
 
-const userAuth=false;
+const userAuth=true;
 
 function Navbar() {
     if(!userAuth) {

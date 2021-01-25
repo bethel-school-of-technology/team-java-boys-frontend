@@ -1,11 +1,51 @@
 import React, { Component } from "react";
 import Select from "react-select";
 import { categoryOptions } from "../docs/data";
-import DatePicker from 'react-datepicker';
+import DatePicker from "react-datepicker";
 
+import "react-time-picker/dist/TimePicker.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 export class CreatePost extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+		};
+		this.handleStartChange = this.handleStartChange.bind(this);
+		this.handleEndChange = this.handleEndChange.bind(this);
+		this.handleEndTime = this.handleEndTime.bind(this);
+		this.handleStartTime = this.handleStartTime.bind(this);
+		this.onFormSubmit = this.onFormSubmit.bind(this);
+	}
+
+	handleEndTime(endTime) {
+		this.setState({
+			endTime: endTime,
+		});
+	}
+
+	handleStartTime(startTime) {
+		this.setState({
+			startTime: startTime,
+		});
+	}
+
+	handleStartChange(startDate) {
+		this.setState({
+			startDate: startDate,
+		});
+	}
+
+	handleEndChange(endDate) {
+		this.setState({
+			endDate: endDate,
+		});
+	}
+
+	onFormSubmit(e) {
+		e.preventDefault();
+	}
+
 	render() {
 		return (
 			<form onSubmit={this.formSubmit}>
@@ -33,21 +73,49 @@ export class CreatePost extends Component {
 					<input type="text" name="zip" />
 				</label>
 				<br />
-				
-				<label>
+
+				<label onClick={e => e.preventDefault()}>
 					{" "}
-					Date(s):
-					
-					<DatePicker />
-					{/* <input type="text" name="date" /> */}
+					Start and End Date:
+					<div>
+						<DatePicker
+							placeholderText="Start Date"
+							selected={this.state.startDate}
+							onChange={this.handleStartChange}
+							dateFormat="MMMM d, yyyy"
+						/>
+						<DatePicker
+							placeholderText="End Date"
+							selected={this.state.endDate}
+							onChange={this.handleEndChange}
+							dateFormat="MMMM d, yyyy"
+						/>
+					</div>
 				</label>
-				<br />
-				<label>
+				<label onClick={e => e.preventDefault()}>
 					{" "}
-					Time:
-					<input type="text" name="timeStamp" />
+					Start and End Times:
+					<div>
+						<DatePicker
+							placeholderText="Start Time"
+							selected={this.state.startTime}
+							onChange={this.handleStartTime}
+							showTimeSelect
+							showTimeSelectOnly
+							timeIntervals={30}
+							dateFormat="hh:mm aa"
+						/>
+						<DatePicker
+							placeholderText="End Time"
+							selected={this.state.endTime}
+							onChange={this.handleEndTime}
+							showTimeSelect
+							showTimeSelectOnly
+							timeIntervals={30}
+							dateFormat="hh:mm aa"
+						/>
+					</div>
 				</label>
-				<br />
 				<div className="radio">
 					{" "}
 					<h4>Categories</h4>
@@ -66,32 +134,5 @@ export class CreatePost extends Component {
 		);
 	}
 }
-//     render() {
-//         return (
-//             <div>
-//                 <form>
-//                     <label> Address:
-//                 <input type='text' name='address'/>
-//                 </label>
-//                     <label> Date(s):
-//                 <input type='text' name='date'/>
-//                 </label>
-//                     <label> Time:
-//                 <input type='text' name='time'/>
-//                 </label>
-// {/* <label>
-// 	{" "}
-// 	Categories:
-// 	<input type="radio" name="toys" value="Toys" /> Toys
-// 	<input type="radio" name="clothes" value="Clothes" /> Clothes
-// 	<input type="radio" name="tools" value="Tools" /> Tools
-// 	<input type="radio" name="artsandcrafts" value="Arts and Crafts" /> Arts and Crafts
-// 	<input type="radio" name="baby" value="Baby" /> Baby
-// </label>; */}
-//                 </form>
-//             </div>
-//         )
-//     }
-// }
 
 export default CreatePost;
