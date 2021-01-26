@@ -1,5 +1,5 @@
 export const categoryOptions = [
-    {value: 'antiques', label: 'Antiques'},
+    {value: 'antiques', label: 'Antiques', name:'antiques'},
     {value: 'appliances', label: 'Appliances'},
     {value: 'artsCrafts', label: 'Arts and Crafts'},
     {value: 'babyKidToys', label: 'Baby and Children Toys'},

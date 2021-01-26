@@ -5,7 +5,6 @@ import DatePicker from "react-datepicker";
 
 import "react-time-picker/dist/TimePicker.css";
 import "react-datepicker/dist/react-datepicker.css";
-// import moment from "moment";
 
 export class CreatePost extends Component {
 	constructor(props) {
@@ -19,6 +18,7 @@ export class CreatePost extends Component {
 			endDate: "",
 			startTime: "",
 			endTime: "",
+			categories: "",
 		};
 		this.handleStartChange = this.handleStartChange.bind(this);
 		this.handleEndChange = this.handleEndChange.bind(this);
@@ -43,6 +43,7 @@ export class CreatePost extends Component {
 			endDate: this.state.endDate,
 			startTime: this.state.startTime,
 			endTime: this.state.endTime,
+			categories: this.state.categories,
 		};
 		console.log(data);
 		fetch(url, { method: "POST", body: JSON.stringify(data), headers: { "Content-Type": "application/json" } })
@@ -55,7 +56,6 @@ export class CreatePost extends Component {
 		this.setState({
 			endTime: endTime,
 		});
-		console.log(endTime)
 	}
 
 	handleStartTime(startTime) {
@@ -67,8 +67,7 @@ export class CreatePost extends Component {
 	handleStartChange(startDate) {
 		this.setState({
 			startDate: startDate,
-		});		
-		console.log(startDate)
+		});
 	}
 
 	handleEndChange(endDate) {
@@ -76,6 +75,18 @@ export class CreatePost extends Component {
 			endDate: endDate,
 		});
 	}
+
+	handleSelectionChange = (categories) => {
+		this.setState({
+			categories: JSON.stringify(categories)
+		});
+		// console.log(categories);
+		// var objectValue = JSON.stringify(categories);
+		// console.log(objectValue);
+		// for (var i = 0; i < objectValue.length; i++) {
+		// 	console.log(objectValue["value"]);
+		// }
+	};
 
 	onFormSubmit(e) {
 		e.preventDefault();
@@ -156,10 +167,12 @@ export class CreatePost extends Component {
 					<h4>Categories</h4>
 					<Select
 						isMulti
-						name="categories"
+						value={this.state.categories.label}
 						options={categoryOptions}
 						className="basic-multi-select"
 						classNamePrefix="select"
+						// selected={this.state.categories}
+						onChange={this.handleSelectionChange}
 					/>
 					<button className="btn btn-default" type="submit">
 						Submit

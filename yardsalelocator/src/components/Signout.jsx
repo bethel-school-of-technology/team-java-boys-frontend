@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
+
 
 export class Signout extends Component {
+    userAuth=false;
     render() {
         return (
             <div>
-                Signout Content to be added soon.
+                <Redirect to="/" />
             </div>
         )
     }

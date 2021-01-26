@@ -1,87 +1,89 @@
-import React, { Component } from 'react'
-import axios from 'axios'
-import ReactTable from "react-table"; 
-import 'react-table/react-table.css'
-import CreatePost from './CreatePost';
-import { Link, Route } from 'react-router-dom';
-import { Button } from 'reactstrap';
+import React, { Component } from "react";
+import axios from "axios";
+import ReactTable from "react-table";
+import "react-table/react-table.css";
+import CreatePost from "./CreatePost";
+import { Link, Route } from "react-router-dom";
+import { Button } from "reactstrap";
 
 //Axios info site: github.com/axios/axios
 
 export default class Posts extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      users: [],
-      loading:true
-    }
-  }
+	constructor(props) {
+		super(props);
+		this.state = {
+			post: [],
+			loading: true,
+		};
+	}
 
-  async getPostData(){
-    const res = await axios.get('http://localhost:8080/post')
-    console.log(res.data)
-    this.setState({loading:false, post: res.data})
-  }
+	async getPostData() {
+		const res = await axios.get("http://localhost:8080/post");
+		console.log(res.data);
+		this.setState({ loading: false, post: res.data });
+	}
 
-  componentDidMount(){
-    this.getPostData()
-  }
+	componentDidMount() {
+		this.getPostData();
+	}
 
-  render() {
-    const columns = [{  
-      Header: 'ID',  
-      accessor: 'id',
-     }
-     ,{  
-     Header: 'Street Address',  
-     accessor: 'streetAddress',
-     },
-     {  
-      Header: 'City',  
-      accessor: 'city',
-      },
-      {  
-        Header: 'State',  
-        accessor: 'state',
-        },
-      {  
-        Header: 'Zip Code',  
-        accessor: 'zip',
-        },
-        {  
-          Header: 'Starting Date',  
-          accessor: 'startDate',
-          },
-          {  
-            Header: 'Ending Date',  
-            accessor: 'endDate',
-            },
-          {  
-            Header: 'Starting Time',  
-            accessor: 'startTime',
-            },
-            {  
-              Header: 'Ending Time',  
-              accessor: 'endTime',
-              }
-  ]
-    return (
-        <> <h1>Yard Sale Postings</h1>
-        <div style={{width:'80vw'}}>
-      <ReactTable  
-      data={this.state.post}  
-      columns={columns} 
-      defaultPageSize={10}
-   />
-   <Button>
-   <Link to='/createpost'>Create New Post </Link>
-   </Button>
-   <Route path='/createpost' 
-        component={CreatePost}/> 
-   </div>
-   </>
-    )
-  }
+	render() {
+		const columns = [
+			{
+				Header: "ID",
+				accessor: "id",
+			},
+			{
+				Header: "Street Address",
+				accessor: "streetAddress",
+			},
+			{
+				Header: "City",
+				accessor: "city",
+			},
+			{
+				Header: "State",
+				accessor: "state",
+			},
+			{
+				Header: "Zip Code",
+				accessor: "zip",
+			},
+			{
+				Header: "Starting Date",
+				accessor: "startDate",
+			},
+			{
+				Header: "Ending Date",
+				accessor: "endDate",
+			},
+			{
+				Header: "Starting Time",
+				accessor: "startTime",
+			},
+			{
+				Header: "Ending Time",
+				accessor: "endTime",
+			},
+			{
+				Header: "Categories",
+				accessor: "categories",
+			},
+		];
+		return (
+			<>
+				{" "}
+				<h1>Yard Sale Postings</h1>
+				<div style={{ width: "80vw" }}>
+					<ReactTable data={this.state.post} columns={columns} defaultPageSize={10} />
+					<Button>
+						<Link to="/createpost">Create New Post </Link>
+					</Button>
+					<Route path="/createpost" component={CreatePost} />
+				</div>
+			</>
+		);
+	}
 }
 
 //Fetch example from Darrin Deal Video https://vimeo.com/showcase/7506077/video/395976709
