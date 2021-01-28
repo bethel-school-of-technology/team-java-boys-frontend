@@ -46,11 +46,17 @@ export class CreatePost extends Component {
 			categories: this.state.categories,
 		};
 		console.log(data);
-		fetch(url, { method: "POST", body: JSON.stringify(data), headers: { "Content-Type": "application/json" } })
+		fetch(url, { method: "POST", body: JSON.stringify(data), headers: { "Content-Type": "application/json", "Authorization" : localStorage.getItem("userToken") } })
 			.then((res) => res.json())
 			.catch((error) => console.error("Error:", error))
-			.then((response) => console.log("Success:", response));
+			.then((response) => console.log("Success:", response))
+			.then(this.reRender());
 	};
+
+	reRender = () => {
+		alert("Post Submitted");
+		this.props.history.push('/post');
+	}
 
 	handleEndTime(endTime) {
 		this.setState({
@@ -77,15 +83,14 @@ export class CreatePost extends Component {
 	}
 
 	handleSelectionChange = (categories) => {
+		let values=[];
+		for (var i = 0; i < categories.length; i++) {
+			values.push(categories[i].label)}
+			
+			console.log(values); 
 		this.setState({
-			categories: JSON.stringify(categories)
+			categories: JSON.stringify(values)
 		});
-		// console.log(categories);
-		// var objectValue = JSON.stringify(categories);
-		// console.log(objectValue);
-		// for (var i = 0; i < objectValue.length; i++) {
-		// 	console.log(objectValue["value"]);
-		// }
 	};
 
 	onFormSubmit(e) {
@@ -171,11 +176,11 @@ export class CreatePost extends Component {
 						options={categoryOptions}
 						className="basic-multi-select"
 						classNamePrefix="select"
-						// selected={this.state.categories}
 						onChange={this.handleSelectionChange}
 					/>
+					
 					<button className="btn btn-default" type="submit">
-						Submit
+					 Submit					
 					</button>
 				</div>
 			</form>

@@ -1,18 +1,31 @@
 import React, { Component } from 'react'
-// import axios from 'axios';
+import axios from 'axios';
 
 export class Profile extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			user: [],
+            user: [],
+            loading: true,
 		};
 	}
     
+    
+    async getUserData() {
+		let axiosConfig = {
+            headers: {
+				"Authorization": localStorage.getItem("userToken")
+            }
+		  };
+		  
+		const res = await axios.get("http://localhost:8080/user", axiosConfig);
+		console.log(res.data);
+        this.setState({ loading: false, user: res.data });
+        console.log(this.state.user);
+    }
+    
     componentDidMount() {
-            fetch("http://localhost:8080/user")
-            .then((req) => req.json())
-            .then(data => this.setState({user: data}));
+		this.getUserData();
 	}
 
     render() {

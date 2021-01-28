@@ -1,11 +1,12 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import axios from "axios";
 import ReactTable from "react-table";
-import "react-table/react-table.css";
 import CreatePost from "./CreatePost";
 import { Link, Route } from "react-router-dom";
 import { Button } from "reactstrap";
+import moment from "moment";
 
+import "react-table/react-table.css";
 //Axios info site: github.com/axios/axios
 
 export default class Posts extends Component {
@@ -18,9 +19,15 @@ export default class Posts extends Component {
 	}
 
 	async getPostData() {
-		const res = await axios.get("http://localhost:8080/post");
-		console.log(res.data);
+		let axiosConfig = {
+			headers: {
+				Authorization: localStorage.getItem("userToken"),
+			},
+		};
+
+		const res = await axios.get("http://localhost:8080/post", axiosConfig);
 		this.setState({ loading: false, post: res.data });
+		console.log(this.state);
 	}
 
 	componentDidMount() {
@@ -51,19 +58,23 @@ export default class Posts extends Component {
 			},
 			{
 				Header: "Starting Date",
-				accessor: "startDate",
+				id: "startDate",
+				accessor: (a) => <Fragment>{moment(a.startDate).format("MMM Do YYYY")}</Fragment>,
 			},
 			{
 				Header: "Ending Date",
-				accessor: "endDate",
+				id: "endDate",
+				accessor: (a) => <Fragment>{moment(a.endDate).format("MMM Do YYYY")}</Fragment>,
 			},
 			{
 				Header: "Starting Time",
-				accessor: "startTime",
+				id: "startTime",
+				accessor: (a) => <Fragment>{moment(a.startTime).format("h:mm:ss a")}</Fragment>,
 			},
 			{
 				Header: "Ending Time",
-				accessor: "endTime",
+				id: "endTime",
+				accessor: (a) => <Fragment>{moment(a.endTime).format("h:mm:ss a")}</Fragment>,
 			},
 			{
 				Header: "Categories",

@@ -31,11 +31,11 @@
   
   .nav-menu {
     display: grid;
-    grid-template-columns: repeat(4, auto);
+    grid-template-columns: repeat(6, auto);
     grid-gap: 10px;
     list-style: none;
     text-align: center;
-    width: 60vw;
+    width: 80vw;
     justify-content: end;
     margin-right: 2rem;
   }

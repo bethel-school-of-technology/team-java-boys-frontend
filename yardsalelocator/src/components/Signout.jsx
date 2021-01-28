@@ -3,7 +3,10 @@ import { Redirect } from 'react-router-dom'
 
 
 export class Signout extends Component {
-    userAuth=false;
+    componentDidMount() {
+        window.localStorage.clear();
+        }
+
     render() {
         return (
             <div>

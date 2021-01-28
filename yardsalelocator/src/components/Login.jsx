@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 export class Login extends Component {
     constructor(props) {
@@ -6,6 +8,7 @@ export class Login extends Component {
 		this.state = {
 			username: "",
             password: "",
+            redirectToReferrer: false,
             // hasLoginFailed: false,
             // showSuccessMessage: false,
         };
@@ -17,24 +20,44 @@ export class Login extends Component {
 		this.setState({ [event.target.name]: event.target.value });
     };
 
-    onFormSubmit() {
+
+
+    onFormSubmit(e) {
+        e.preventDefault();
+        let userInfo = {
+            username: this.state.username,
+            password: this.state.password
+        }
+        let axiosConfig = {
+            headers: {
+            }
+          };
+        axios.post("http://localhost:8080/login", userInfo, axiosConfig) 
+        .then(res => {
+            localStorage.setItem("userToken", res.headers.authorization)
+        })
+        .then(this.setState({redirectToReferrer: true}))
     }
-    
+
     render() {
+        const redirectToReferrer = this.state.redirectToReferrer;
+        if (redirectToReferrer) {
+            return <Redirect to="/post" />
+        }
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={ (e) => this.onFormSubmit(e)}>
 				<div>
 					<h1>Log In</h1>
 					<label>
 						{" "}
-						Email:
-						<input type="email" name="email" onChange={this.handleChange} />
+						Username:
+						<input type="text" name="username" onChange={this.handleChange} />
 					</label>
 					<br />
 					<label>
 						{" "}
-						Username:
-						<input type="text" name="username" onChange={this.handleChange} />
+						Password:
+						<input type="password" name="password" onChange={this.handleChange} />
 					</label>
 					<br />
                     <button className="btn btn-default" type="submit">
