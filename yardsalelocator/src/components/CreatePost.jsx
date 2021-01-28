@@ -86,10 +86,10 @@ export class CreatePost extends Component {
 		let values=[];
 		for (var i = 0; i < categories.length; i++) {
 			values.push(categories[i].label)}
-			
-			console.log(values); 
+			let valuesStringified=values.toString();
+			console.log(valuesStringified); 
 		this.setState({
-			categories: JSON.stringify(values)
+			categories: valuesStringified
 		});
 	};
 
