@@ -30,7 +30,6 @@ export default class Posts extends Component {
 		let postDateData = res.data;
 		console.log(postDateData);
 		let validPost=[];
-
 		for(var i = 0; i < postDateData.length; i++){
 			let endPostDate = (moment(postDateData[i].startDate).format());
 			console.log(endPostDate);

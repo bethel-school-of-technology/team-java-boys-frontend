@@ -55,12 +55,27 @@ class Home extends Component {
 
 		const res = await axios.get("http://localhost:8080/post", axiosConfig);
     let data = res.data;
+
+    let postDateData = res.data;
+		console.log(postDateData);
+		let validPost=[];
+		for(var i = 0; i < postDateData.length; i++){
+			let endPostDate = (moment(postDateData[i].startDate).format());
+			console.log(endPostDate);
+			let todaysDate= (moment(new Date()).format());
+			console.log(todaysDate);
+			if(todaysDate < endPostDate){
+				console.log(endPostDate + " is after " + todaysDate);
+				validPost.push(postDateData[i]);
+			} 
+    };
+    
 		let address = [];
-		for (var i = 0; i < data.length; i++) {
-			address.push(data[i].streetAddress + " " + data[i].city + " " + data[i].state + " " + data[i].zip);
+		for (var i = 0; i < validPost.length; i++) {
+			address.push(validPost[i].streetAddress + " " + validPost[i].city + " " + validPost[i].state + " " + validPost[i].zip);
       this.setState({ yardSaleLocations: address });
     }
-    this.setState({ yardSaleInformation: data });
+    this.setState({ yardSaleInformation: validPost });
     this.getYardsSaleCoords();
 	}
 
