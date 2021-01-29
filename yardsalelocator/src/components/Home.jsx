@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import MapGL from "react-map-gl";
 import { Marker, NavigationControl, Popup } from "react-map-gl";
 import axios from "axios";
-// import Geocode from "react-geocode";
+import moment from 'moment';
 
 const MAPBOX_TOKEN = "pk.eyJ1IjoidGhlamF2YWJveXMiLCJhIjoiY2trNGsyYTd5MGMxYTJvdGh5MzJoZGNoaiJ9.5NRGHn_waxDVcG8__PJ_eA";
 
@@ -18,10 +18,33 @@ class Home extends Component {
 			zoom: 8,
 		},
 		userLocation: {},
+    selectedSale: null,
 		yardSaleLocations: [],
 		yardSaleCoords: [],
-		selectedSale: null,
-	};
+    yardSaleInformation: [],
+    combinedStates: [],
+  };
+
+  combineStates = () => {
+    let combinedData3= [];
+    let yardSaleInformation = this.state.yardSaleInformation;
+    for(var i=0; i < yardSaleInformation.length ; i++){
+      let yardSaleCoords = this.state.yardSaleCoords[i];
+      // console.log(yardSaleCoords);
+      let yardSaleLocations = {address: this.state.yardSaleLocations[i]};
+      // console.log(yardSaleLocations);
+      // console.log(yardSaleInformation[i]);
+      const combinedData=Object.assign(yardSaleInformation[i], yardSaleLocations );
+      const combinedData2=Object.assign(combinedData, yardSaleCoords );
+      combinedData3.push(combinedData2);
+      this.setState({ combinedStates: combinedData3})
+    };
+    this.checkState();   
+  }
+  
+  checkState = () => {
+    console.log(this.state);
+  };
 
 	async getPostData() {
 		let axiosConfig = {
@@ -31,18 +54,19 @@ class Home extends Component {
 		};
 
 		const res = await axios.get("http://localhost:8080/post", axiosConfig);
-		let data = res.data;
+    let data = res.data;
 		let address = [];
 		for (var i = 0; i < data.length; i++) {
 			address.push(data[i].streetAddress + " " + data[i].city + " " + data[i].state + " " + data[i].zip);
-			this.setState({ yardSaleLocations: address });
-		}
-		// console.log(this.state.yardSaleLocations);
-		this.getYardsSaleCoords();
+      this.setState({ yardSaleLocations: address });
+    }
+    this.setState({ yardSaleInformation: data });
+    this.getYardsSaleCoords();
 	}
 
 	componentDidMount() {
-		this.getPostData();
+    this.getPostData();
+    this.setUserLocation();
 	}
 
 	setUserLocation = () => {
@@ -68,7 +92,6 @@ class Home extends Component {
 	async getYardsSaleCoords() {
 		let yardSaleLocations = this.state.yardSaleLocations;
 		let coordsArray = [];
-		console.log(yardSaleLocations);
 		for (var i = 0; i < yardSaleLocations.length; i++) {
 			const res = await axios.get("https://maps.googleapis.com/maps/api/geocode/json?", {
 				params: {
@@ -79,18 +102,19 @@ class Home extends Component {
 
 			let data = res.data.results[0].geometry.location;
 			coordsArray.push(data);
-			// console.log(data);
 		}
-		this.setState({ yardSaleCoords: coordsArray });
-		console.log(this.state.yardSaleCoords);
-	}
+    this.setState({ yardSaleCoords: coordsArray });
+    this.combineStates();
+  }
+  
+ 
 
 	addMarkers = () => {
-		let yardSaleCoords = this.state.yardSaleCoords;
-		for (var i = 0; i < yardSaleCoords.length; i++) {
-			return this.state.yardSaleCoords.map((spot) => {
+		let combinedStates = this.state.combinedStates;
+		for (var i = 0; i < combinedStates.length; i++) {
+			return this.state.combinedStates.map((spot) => {
 				return (
-					<Marker key={spot.objectid} latitude={parseFloat(spot.lat)} longitude={parseFloat(spot.lng)}>
+					<Marker key={spot.lat} latitude={parseFloat(spot.lat)} longitude={parseFloat(spot.lng)}>
 						<img
 							onClick={() => {
 								this.setSelectedSale(spot);
@@ -106,7 +130,8 @@ class Home extends Component {
 	};
 
 	setSelectedSale = (object) => {
-		this.setState({ selectedSale: object });
+    this.setState({ selectedSale: object });
+    console.log(this.state.selectedSale);
 	};
 
 	closePopup = () => {
@@ -136,9 +161,12 @@ class Home extends Component {
 						<Popup
 							latitude={parseFloat(this.state.selectedSale.lat)}
 							longitude={parseFloat(this.state.selectedSale.lng)}
-							onClose={this.closePopup}
+              onClose={this.closePopup}
 						>
-							<p>Yard Sale Information</p>
+							<p><b>Address: </b>{this.state.selectedSale.address}</p>
+							<p><b>Categories: </b>{this.state.selectedSale.categories}</p>
+							<p><b>Dates: </b>{moment(this.state.selectedSale.startDate).format("MMM Do YYYY")} to {moment(this.state.selectedSale.endDate).format("MMM Do YYYY")}</p>
+							<p><b>Time: </b>{moment(this.state.selectedSale.startTime).format("h:mm:ss a")} to {moment(this.state.selectedSale.endTime).format("h:mm:ss a")}</p>
 						</Popup>
 					) : null}
 					<div style={{ position: "absolute", right: 1 }}>
@@ -152,160 +180,153 @@ class Home extends Component {
 }
 export default Home;
 
-// WORKING VERSION BEFORE ADDING MARKERS
-// const Home = () => {
-//   const [viewport, setViewport] = useState({
-//     latitude: 37.7577,
-//     longitude: -122.4376,
-//     zoom: 8
-//   });
-//   const geocoderContainerRef = useRef();
-//   const mapRef = useRef();
-//   const handleViewportChange = useCallback(
-//     (newViewport) => setViewport(newViewport),
-//     []
-//   );
+//WORKING VERSION, UNCLEANED AND LIMITED INFO ON POP UPS
+// import "mapbox-gl/dist/mapbox-gl.css";
+// import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+// import React, { Component } from "react";
+// import MapGL from "react-map-gl";
+// import { Marker, NavigationControl, Popup } from "react-map-gl";
+// import axios from "axios";
 
-//   const handleGeocoderViewportChange = useCallback(
-//     (newViewport) => {
-//       const geocoderDefaultOverrides = { transitionDuration: 500 };
+// const MAPBOX_TOKEN = "pk.eyJ1IjoidGhlamF2YWJveXMiLCJhIjoiY2trNGsyYTd5MGMxYTJvdGh5MzJoZGNoaiJ9.5NRGHn_waxDVcG8__PJ_eA";
 
-//       return handleViewportChange({
-//         ...newViewport,
-//         ...geocoderDefaultOverrides
-//       });
-//     },
-//     [handleViewportChange]
-//   );
+// class Home extends Component {
+// 	state = {
+// 		viewport: {
+// 			width: "80vw",
+// 			height: "80vh",
+// 			latitude: 37.7577,
+// 			longitude: -122.4376,
+// 			zoom: 8,
+// 		},
+// 		userLocation: {},
+// 		yardSaleLocations: [],
+// 		yardSaleCoords: [],
+// 		selectedSale: null,
+// 	};
 
-//   return (
-//     <div style={{ height: "100vh" }}>
-//       <div ref={geocoderContainerRef} style={{ width: "100%" }}/>
-//       <MapGL
-//         ref={mapRef}
-//         {...viewport}
-//         width="80%"
-//         height="80%"
-//         onViewportChange={handleViewportChange}
-// 		mapboxApiAccessToken={MAPBOX_TOKEN}
-// 		mapStyle="mapbox://styles/mapbox/streets-v11"
-//       >
-// 		  <div style={{position:'absolute', right:1}}>
-// 		<NavigationControl/>
-//         		</div>
-//       </MapGL>
-// 	  <Geocoder
-//           mapRef={mapRef}
-//           containerRef={geocoderContainerRef}
-//           onViewportChange={handleGeocoderViewportChange}
-//           mapboxApiAccessToken={MAPBOX_TOKEN}
-//         />
-//     </div>
-//   );
-// };
-
-// export default Home
-
-//VERSION 4, Not functioning completely
-// import React, { PureComponent } from "react";
-// import ReactMapGL, { Marker, NavigationControl } from "react-map-gl";
-// import { Button } from "reactstrap";
-// import Geocoder from "react-mapbox-gl-geocoder";
-// import "./Home.css";
-
-// const mapStyle = {
-// 	width: "80%",
-// 	height: 600,
-// };
-
-// const mapboxApiKey = "pk.eyJ1IjoidGhlamF2YWJveXMiLCJhIjoiY2trNGsyYTd5MGMxYTJvdGh5MzJoZGNoaiJ9.5NRGHn_waxDVcG8__PJ_eA";
-
-// const params = {
-// 	country: "us",
-// };
-
-// const CustomMarker = ({ index, marker }) => {
-// 	return (
-// 		<Marker longitude={marker.longitude} latitude={marker.latitude}>
-// 			<div className="marker">
-// 				<span>
-// 					<b>{index + 1}</b>
-// 				</span>
-// 			</div>
-// 		</Marker>
-// 	);
-// };
-
-// class Home extends PureComponent {
-// 	constructor(props) {
-// 		super(props);
-// 		this.state = {
-// 			viewport: {
-// 				latitude: 45.50884,
-// 				longitude: -73.58781,
-// 				zoom: 15,
+// 	async getPostData() {
+// 		let axiosConfig = {
+// 			headers: {
+// 				Authorization: localStorage.getItem("userToken"),
 // 			},
-// 			tempMarker: null,
-// 			markers: [],
 // 		};
+
+// 		const res = await axios.get("http://localhost:8080/post", axiosConfig);
+// 		let data = res.data;
+// 		let address = [];
+// 		for (var i = 0; i < data.length; i++) {
+// 			address.push(data[i].streetAddress + " " + data[i].city + " " + data[i].state + " " + data[i].zip);
+// 			this.setState({ yardSaleLocations: address });
+// 		}
+// 		this.getYardsSaleCoords();
 // 	}
 
-// 	onSelected = (viewport, item) => {
-// 		this.setState({
-// 			viewport,
-// 			tempMarker: {
-// 				name: item.place_name,
-// 				longitude: item.center[0],
-// 				latitude: item.center[1],
-// 			},
+// 	componentDidMount() {
+//     this.getPostData();
+//     this.setUserLocation();
+// 	}
+
+// 	setUserLocation = () => {
+// 		navigator.geolocation.getCurrentPosition((position) => {
+// 			let setUserLocation = {
+// 				lat: position.coords.latitude,
+// 				long: position.coords.longitude,
+// 			};
+// 			let newViewport = {
+// 				height: "80vh",
+// 				width: "80vw",
+// 				latitude: position.coords.latitude,
+// 				longitude: position.coords.longitude,
+// 				zoom: 10,
+// 			};
+// 			this.setState({
+// 				viewport: newViewport,
+// 				userLocation: setUserLocation,
+// 			});
 // 		});
 // 	};
 
-// 	add = () => {
-// 		var { tempMarker } = this.state;
+// 	async getYardsSaleCoords() {
+// 		let yardSaleLocations = this.state.yardSaleLocations;
+// 		let coordsArray = [];
+// 		console.log(yardSaleLocations);
+// 		for (var i = 0; i < yardSaleLocations.length; i++) {
+// 			const res = await axios.get("https://maps.googleapis.com/maps/api/geocode/json?", {
+// 				params: {
+// 					address: yardSaleLocations[i],
+// 					key: "AIzaSyAjdutfxpJvuPljbVNmz9Zh8YlWkYg9eNQ",
+// 				},
+// 			});
 
-// 		this.setState((prevState) => ({
-// 			markers: [...prevState.markers, tempMarker],
-// 			tempMarker: null,
-// 		}));
+// 			let data = res.data.results[0].geometry.location;
+// 			coordsArray.push(data);
+// 		}
+// 		this.setState({ yardSaleCoords: coordsArray });
+// 		console.log(this.state.yardSaleCoords);
+// 	}
+
+// 	addMarkers = () => {
+// 		let yardSaleCoords = this.state.yardSaleCoords;
+// 		for (var i = 0; i < yardSaleCoords.length; i++) {
+// 			return this.state.yardSaleCoords.map((spot) => {
+// 				return (
+// 					<Marker key={spot.lat} latitude={parseFloat(spot.lat)} longitude={parseFloat(spot.lng)}>
+// 						<img
+// 							onClick={() => {
+// 								this.setSelectedSale(spot);
+// 							}}
+// 							src="location-icon5.png"
+// 							alt="Im here"
+// 							style={{ width: "28px", height: "40px" }}
+// 						/>
+// 					</Marker>
+// 				);
+// 			});
+// 		}
+// 	};
+
+// 	setSelectedSale = (object) => {
+// 		this.setState({ selectedSale: object });
+// 	};
+
+// 	closePopup = () => {
+// 		this.setState({
+// 			selectedSale: null,
+// 		});
 // 	};
 
 // 	render() {
-// 		const { viewport, tempMarker, markers } = this.state;
 // 		return (
-// 			<div>
-// 				<h2>Yard Sale Locator</h2>
-// 				<Geocoder
-// 					mapboxApiAccessToken={mapboxApiKey}
-// 					onSelected={this.onSelected}
-// 					viewport={viewport}
-// 					hideOnSelect={true}
-// 					value=""
-// 					queryParams={params}
-// 				/>
-// 				<Button color="primary" onClick={this.add}>
-// 					Add Marker
-// 				</Button>
-// 				<ReactMapGL
-// 					mapboxApiAccessToken={mapboxApiKey}
-// 					mapStyle="mapbox://styles/mapbox/streets-v11"
-// 					{...viewport}
-// 					{...mapStyle}
+// 			<div className="Home">
+// 				<MapGL
+// 					{...this.state.viewport}
+// 					mapStyle="mapbox://styles/mapbox/outdoors-v11"
+// 					mapboxApiAccessToken={MAPBOX_TOKEN}
 // 					onViewportChange={(viewport) => this.setState({ viewport })}
 // 				>
-// 					{tempMarker && (
-// 						<Marker longitude={tempMarker.longitude} latitude={tempMarker.latitude}>
-// 							<div className="marker temporary-marker">
-// 								<span></span>
-// 							</div>
+// 					{Object.keys(this.state.userLocation).length !== 0 ? (
+// 						<Marker latitude={this.state.userLocation.lat} longitude={this.state.userLocation.long}>
+// 							<img src="location-icon4.png" alt="Im here" style={{ width: "28px", height: "40px" }} />
 // 						</Marker>
+// 					) : (
+// 						<div></div>
 // 					)}
-// 					{markers.map((marker, index) => {
-// 						return <CustomMarker key={`marker-${index}`} index={index} marker={marker} />;
-// 					})}
-
-// 				</ReactMapGL>
-// 				<NavigationControl />
+// 					{this.addMarkers()}
+// 					{this.state.selectedSale !== null ? (
+// 						<Popup
+// 							latitude={parseFloat(this.state.selectedSale.lat)}
+// 							longitude={parseFloat(this.state.selectedSale.lng)}
+// 							onClose={this.closePopup}
+// 						>
+// 							<p>{this.state.yardSaleLocations}</p>
+// 						</Popup>
+// 					) : null}
+// 					<div style={{ position: "absolute", right: 1 }}>
+// 						<button onClick={this.setUserLocation}>My Location</button>
+// 						<NavigationControl />
+// 					</div>
+// 				</MapGL>
 // 			</div>
 // 		);
 // 	}

@@ -26,12 +26,29 @@ export default class Posts extends Component {
 		};
 
 		const res = await axios.get("http://localhost:8080/post", axiosConfig);
-		this.setState({ loading: false, post: res.data });
+
+		let postDateData = res.data;
+		console.log(postDateData);
+		let validPost=[];
+
+		for(var i = 0; i < postDateData.length; i++){
+			let endPostDate = (moment(postDateData[i].startDate).format());
+			console.log(endPostDate);
+			let todaysDate= (moment(new Date()).format());
+			console.log(todaysDate);
+			if(todaysDate < endPostDate){
+				console.log(endPostDate + " is after " + todaysDate);
+				validPost.push(postDateData[i]);
+			} 
+		};
+		console.log(validPost);
+		this.setState({ loading: false, post: validPost });
 	}
 
 	componentDidMount() {
 		this.getPostData();
 	}
+
 
 	render() {
 		const columns = [
