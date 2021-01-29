@@ -54,46 +54,58 @@ export default class Posts extends Component {
 			{
 				Header: "ID",
 				accessor: "id",
+				width: '40'
 			},
 			{
 				Header: "Street Address",
 				accessor: "streetAddress",
+				width: 'auto',
+				style: { 'whiteSpace': 'unset' }
 			},
 			{
 				Header: "City",
 				accessor: "city",
+				width: 'auto'
 			},
 			{
 				Header: "State",
 				accessor: "state",
+				width: 'auto'
 			},
 			{
-				Header: "Zip Code",
+				Header: "Zip",
 				accessor: "zip",
+				width: 'auto'
 			},
 			{
 				Header: "Starting Date",
 				id: "startDate",
 				accessor: (a) => <Fragment>{moment(a.startDate).format("MMM Do YYYY")}</Fragment>,
+				width: 'auto'
 			},
 			{
 				Header: "Ending Date",
 				id: "endDate",
 				accessor: (a) => <Fragment>{moment(a.endDate).format("MMM Do YYYY")}</Fragment>,
+				width: 'auto'
 			},
 			{
-				Header: "Starting Time",
+				Header: "Start Time",
 				id: "startTime",
 				accessor: (a) => <Fragment>{moment(a.startTime).format("h:mm:ss a")}</Fragment>,
+				width: 'auto'
 			},
 			{
-				Header: "Ending Time",
+				Header: "End Time",
 				id: "endTime",
 				accessor: (a) => <Fragment>{moment(a.endTime).format("h:mm:ss a")}</Fragment>,
+				width: 'auto'
 			},
 			{
 				Header: "Categories",
 				accessor: "categories",
+				width: 'auto',
+				style: { 'whiteSpace': 'unset' }
 			},
 		];
 		return (
