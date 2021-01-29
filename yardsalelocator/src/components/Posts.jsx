@@ -27,7 +27,6 @@ export default class Posts extends Component {
 
 		const res = await axios.get("http://localhost:8080/post", axiosConfig);
 		this.setState({ loading: false, post: res.data });
-		console.log(this.state);
 	}
 
 	componentDidMount() {
