@@ -5,14 +5,16 @@ import MapGL from "react-map-gl";
 import { Marker, NavigationControl, Popup } from "react-map-gl";
 import axios from "axios";
 import moment from 'moment';
+import Geocoder from "react-map-gl-geocoder";
+import DeckGL, { GeoJsonLayer } from "deck.gl";
 
 const MAPBOX_TOKEN = "pk.eyJ1IjoidGhlamF2YWJveXMiLCJhIjoiY2trNGsyYTd5MGMxYTJvdGh5MzJoZGNoaiJ9.5NRGHn_waxDVcG8__PJ_eA";
 
 class Home extends Component {
 	state = {
 		viewport: {
-			width: "80vw",
-			height: "80vh",
+			width: 400,
+			height: 400,
 			latitude: 37.7577,
 			longitude: -122.4376,
 			zoom: 8,
@@ -23,7 +25,10 @@ class Home extends Component {
 		yardSaleCoords: [],
     yardSaleInformation: [],
     combinedStates: [],
+    searchResultLayer: null
   };
+
+  mapRef = React.createRef();
 
   combineStates = () => {
     let combinedData3= [];
@@ -59,11 +64,11 @@ class Home extends Component {
 		console.log(postDateData);
 		let validPost=[];
 		for(var i = 0; i < postDateData.length; i++){
-			let endPostDate = (moment(postDateData[i].startDate).format());
+			let endPostDate = (moment(postDateData[i].endDate).format());
 			console.log(endPostDate);
 			let todaysDate= (moment(new Date()).format());
 			console.log(todaysDate);
-			if(todaysDate < endPostDate){
+			if(todaysDate <= endPostDate){
 				console.log(endPostDate + " is after " + todaysDate);
 				validPost.push(postDateData[i]);
 			} 
@@ -78,9 +83,41 @@ class Home extends Component {
     this.getYardsSaleCoords();
 	}
 
+	resize = () => {
+		this.handleViewportChange({
+		  width: window.innerWidth,
+		  height: window.innerHeight
+		});
+	  };
+	
+	  handleViewportChange = viewport => {
+		this.setState({
+		  viewport: { ...this.state.viewport, ...viewport }
+		});
+	  };
+	
+	
+	  handleOnResult = event => {
+		this.setState({
+		  searchResultLayer: new GeoJsonLayer({
+			id: "search-result",
+			data: event.result.geometry,
+			getFillColor: [255, 0, 0, 128],
+			getRadius: 1000,
+			pointRadiusMinPixels: 10,
+			pointRadiusMaxPixels: 10
+		  })
+		});
+	  };
+
 	componentDidMount() {
     this.getPostData();
     this.setUserLocation();
+    window.addEventListener("resize", this.resize);
+    this.resize();
+	}
+	componentWillUnmount() {
+	  window.removeEventListener("resize", this.resize);
 	}
 
 	setUserLocation = () => {
@@ -155,14 +192,23 @@ class Home extends Component {
 	};
 
 	render() {
+		const { viewport, searchResultLayer } = this.state;
 		return (
 			<div className="Home">
 				<MapGL
-					{...this.state.viewport}
-					mapStyle="mapbox://styles/mapbox/outdoors-v11"
-					mapboxApiAccessToken={MAPBOX_TOKEN}
-					onViewportChange={(viewport) => this.setState({ viewport })}
+				mapStyle="mapbox://styles/mapbox/outdoors-v11"
+        ref={this.mapRef}
+        {...viewport}
+        onViewportChange={this.handleViewportChange}
+		mapboxApiAccessToken={MAPBOX_TOKEN}
 				>
+				<Geocoder
+          mapRef={this.mapRef}
+          onResult={this.handleOnResult}
+          onViewportChange={this.handleViewportChange}
+          mapboxApiAccessToken={MAPBOX_TOKEN}
+          position="top-left"
+        />
 					{Object.keys(this.state.userLocation).length !== 0 ? (
 						<Marker latitude={this.state.userLocation.lat} longitude={this.state.userLocation.long}>
 							<img src="location-icon4.png" alt="Im here" style={{ width: "28px", height: "40px" }} />
@@ -183,6 +229,7 @@ class Home extends Component {
 							<p><b>Time: </b>{moment(this.state.selectedSale.startTime).format("h:mm:ss a")} to {moment(this.state.selectedSale.endTime).format("h:mm:ss a")}</p>
 						</Popup>
 					) : null}
+					<DeckGL {...viewport} layers={[searchResultLayer]} />
 					<div style={{ position: "absolute", right: 1 }}>
 						<button onClick={this.setUserLocation}>My Location</button>
 						</div>
