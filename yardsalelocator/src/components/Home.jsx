@@ -185,6 +185,8 @@ class Home extends Component {
 					) : null}
 					<div style={{ position: "absolute", right: 1 }}>
 						<button onClick={this.setUserLocation}>My Location</button>
+						</div>
+						<div style={{ position: "absolute", right: 1, top:28 }}>
 						<NavigationControl />
 					</div>
 				</MapGL>
