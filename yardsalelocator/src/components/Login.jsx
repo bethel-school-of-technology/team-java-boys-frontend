@@ -16,11 +16,13 @@ export class Login extends Component {
 		this.onFormSubmit = this.onFormSubmit.bind(this);
     }
     
+    componentWillUnmount(){
+        //window.location.reload();
+    }
+
     handleChange = (event) => {
 		this.setState({ [event.target.name]: event.target.value });
     };
-
-
 
     onFormSubmit(e) {
         e.preventDefault();
@@ -29,13 +31,10 @@ export class Login extends Component {
             password: this.state.password
         }
         let axiosConfig = {
-            headers: {
-            }
-          };
+            headers: {}
+        };
         axios.post("http://localhost:8080/login", userInfo, axiosConfig) 
-        .then(res => {
-            localStorage.setItem("userToken", res.headers.authorization)
-        })
+        .then(res => {localStorage.setItem("userToken", res.headers.authorization)})
         .then(this.setState({redirectToReferrer: true}))
     }
 
