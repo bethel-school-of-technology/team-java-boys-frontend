@@ -34,26 +34,26 @@ const Home = () => {
 
   return (
     <div style={{ height: "100vh" }}>
-      <div ref={geocoderContainerRef} style={{ width: "100%" }}/>
+      <div ref={geocoderContainerRef} style={{ width: "100%" }} />
       <MapGL
         ref={mapRef}
         {...viewport}
         width="80%"
         height="80%"
         onViewportChange={handleViewportChange}
-		mapboxApiAccessToken={MAPBOX_TOKEN}
-		mapStyle="mapbox://styles/mapbox/streets-v11"
+        mapboxApiAccessToken={MAPBOX_TOKEN}
+        mapStyle="mapbox://styles/mapbox/streets-v11"
       >
-		  <div style={{position:'absolute', right:1}}>
-		<NavigationControl/>
-        		</div>
+        <div style={{ position: 'absolute', right: 1 }}>
+          <NavigationControl />
+        </div>
       </MapGL>
-	  <Geocoder
-          mapRef={mapRef}
-          containerRef={geocoderContainerRef}
-          onViewportChange={handleGeocoderViewportChange}
-          mapboxApiAccessToken={MAPBOX_TOKEN}
-        />
+      <Geocoder
+        mapRef={mapRef}
+        containerRef={geocoderContainerRef}
+        onViewportChange={handleGeocoderViewportChange}
+        mapboxApiAccessToken={MAPBOX_TOKEN}
+      />
     </div>
   );
 };
@@ -157,7 +157,7 @@ export default Home
 // 					{markers.map((marker, index) => {
 // 						return <CustomMarker key={`marker-${index}`} index={index} marker={marker} />;
 // 					})}
-					
+
 // 				</ReactMapGL>
 // 				<NavigationControl />
 // 			</div>
