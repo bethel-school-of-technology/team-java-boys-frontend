@@ -27,8 +27,22 @@ export default class Posts extends Component {
 		};
 
 		const res = await axios.get("http://localhost:8080/post", axiosConfig);
-		this.setState({ loading: false, post: res.data });
-		console.log(this.state);
+
+		let postDateData = res.data;
+		console.log(postDateData);
+		let validPost=[];
+		for(var i = 0; i < postDateData.length; i++){
+			let endPostDate = (moment(postDateData[i].endDate).format());
+			console.log(endPostDate);
+			let todaysDate= (moment(new Date()).format());
+			console.log(todaysDate);
+			if(todaysDate <= endPostDate){
+				console.log(endPostDate + " is after " + todaysDate);
+				validPost.push(postDateData[i]);
+			} 
+		};
+		console.log(validPost);
+		this.setState({ loading: false, post: validPost });
 	}
 
 	componentDidMount() {
@@ -36,51 +50,64 @@ export default class Posts extends Component {
 		//window.location.reload();
 	}
 
+
 	render() {
 		const columns = [
 			{
 				Header: "ID",
 				accessor: "id",
+				width: '40'
 			},
 			{
 				Header: "Street Address",
 				accessor: "streetAddress",
+				width: 'auto',
+				style: { 'whiteSpace': 'unset' }
 			},
 			{
 				Header: "City",
 				accessor: "city",
+				width: 'auto'
 			},
 			{
 				Header: "State",
 				accessor: "state",
+				width: 'auto'
 			},
 			{
-				Header: "Zip Code",
+				Header: "Zip",
 				accessor: "zip",
+				width: 'auto'
 			},
 			{
 				Header: "Starting Date",
 				id: "startDate",
 				accessor: (a) => <Fragment>{moment(a.startDate).format("MMM Do YYYY")}</Fragment>,
+				width: 'auto'
 			},
 			{
 				Header: "Ending Date",
 				id: "endDate",
 				accessor: (a) => <Fragment>{moment(a.endDate).format("MMM Do YYYY")}</Fragment>,
+				width: 'auto'
 			},
 			{
-				Header: "Starting Time",
+				Header: "Start Time",
 				id: "startTime",
 				accessor: (a) => <Fragment>{moment(a.startTime).format("h:mm:ss a")}</Fragment>,
+				width: 'auto'
 			},
 			{
-				Header: "Ending Time",
+				Header: "End Time",
 				id: "endTime",
 				accessor: (a) => <Fragment>{moment(a.endTime).format("h:mm:ss a")}</Fragment>,
+				width: 'auto'
 			},
 			{
 				Header: "Categories",
 				accessor: "categories",
+				width: 'auto',
+				style: { 'whiteSpace': 'unset' }
 			},
 		];
 		return (

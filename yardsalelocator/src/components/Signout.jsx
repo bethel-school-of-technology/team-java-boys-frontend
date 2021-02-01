@@ -6,7 +6,9 @@ export class Signout extends Component {
     componentDidMount() {
         window.localStorage.clear();
         window.location.reload();
+
     }
+
 
     render() {
         return (
