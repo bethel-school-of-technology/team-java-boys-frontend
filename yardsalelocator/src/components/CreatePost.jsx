@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Select from "react-select";
 import { categoryOptions } from "../docs/data";
 import DatePicker from "react-datepicker";
+import Navbar from "./Navbar";
 
 import "react-time-picker/dist/TimePicker.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -46,7 +47,7 @@ export class CreatePost extends Component {
 			categories: this.state.categories,
 		};
 		console.log(data);
-		fetch(url, { method: "POST", body: JSON.stringify(data), headers: { "Content-Type": "application/json", "Authorization" : localStorage.getItem("userToken") } })
+		fetch(url, { method: "POST", body: JSON.stringify(data), headers: { "Content-Type": "application/json", "Authorization": localStorage.getItem("userToken") } })
 			.then((res) => res.json())
 			.catch((error) => console.error("Error:", error))
 			.then((response) => console.log("Success:", response))
@@ -83,11 +84,13 @@ export class CreatePost extends Component {
 	}
 
 	handleSelectionChange = (categories) => {
-		let values=[];
+		let values = [];
 		for (var i = 0; i < categories.length; i++) {
+
 			values.push(categories[i].label)}
 			let valuesStringified=values.toString();
 			console.log(valuesStringified); 
+
 		this.setState({
 			categories: valuesStringified
 		});
@@ -178,9 +181,9 @@ export class CreatePost extends Component {
 						classNamePrefix="select"
 						onChange={this.handleSelectionChange}
 					/>
-					
+
 					<button className="btn btn-default" type="submit">
-					 Submit					
+						Submit
 					</button>
 				</div>
 			</form>

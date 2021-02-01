@@ -6,6 +6,7 @@ import { Marker, NavigationControl, Popup } from "react-map-gl";
 import axios from "axios";
 import moment from 'moment';
 import Geocoder from "react-map-gl-geocoder";
+
 import DeckGL, { GeoJsonLayer } from "deck.gl";
 
 const MAPBOX_TOKEN = "pk.eyJ1IjoidGhlamF2YWJveXMiLCJhIjoiY2trNGsyYTd5MGMxYTJvdGh5MzJoZGNoaiJ9.5NRGHn_waxDVcG8__PJ_eA";
