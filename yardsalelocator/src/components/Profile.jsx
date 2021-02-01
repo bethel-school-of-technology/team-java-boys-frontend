@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import Navbar from "./Navbar";
 
 export class Profile extends Component {
     constructor(props) {

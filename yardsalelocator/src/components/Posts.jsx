@@ -1,12 +1,9 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
 import ReactTable from "react-table";
-import CreatePost from "./CreatePost";
-import { Link, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "reactstrap";
 import moment from "moment";
-import Navbar from "./Navbar";
-
 import "react-table/react-table.css";
 //Axios info site: github.com/axios/axios
 

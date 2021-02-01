@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import "./general.css";
-import Navbar from "./Navbar";
 
 export class Signup extends Component {
 	constructor(props) {

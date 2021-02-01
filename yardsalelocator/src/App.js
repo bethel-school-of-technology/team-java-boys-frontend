@@ -1,6 +1,6 @@
 import Navbar from "./components/Navbar";
 import './App.css';
-import { Link, Route, BrowserRouter as Router } from 'react-router-dom';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 import CreatePost from './components/CreatePost';
 import Home from './components/Home';
 import Login from './components/Login';
