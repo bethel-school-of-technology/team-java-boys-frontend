@@ -31,7 +31,16 @@ export class Login extends Component {
         };
         axios.post("http://localhost:8080/login", userInfo, axiosConfig)
             .then(res => { localStorage.setItem("userToken", res.headers.authorization) })
-            .then(this.setState({ redirectToReferrer: true }))
+            .then(setTimeout(() => {this.redirectLine()}, 500 ));
+    }
+
+    redirectLine() {
+        if(localStorage.getItem("userToken") === null) {
+        alert("Please verify your credentials and log in again.")}
+        else{
+            alert("You are logged in")
+            this.setState({ redirectToReferrer: true })
+        }
     }
 
     render() {

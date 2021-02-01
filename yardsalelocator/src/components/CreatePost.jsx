@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Select from "react-select";
 import { categoryOptions } from "../docs/data";
 import DatePicker from "react-datepicker";
-
 import "react-time-picker/dist/TimePicker.css";
 import "react-datepicker/dist/react-datepicker.css";
 
