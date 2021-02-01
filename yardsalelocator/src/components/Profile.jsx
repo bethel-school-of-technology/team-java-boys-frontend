@@ -6,7 +6,6 @@ export class Profile extends Component {
         super(props);
         this.state = {
             user: [],
-            loading: true,
         };
     }
 
@@ -20,7 +19,7 @@ export class Profile extends Component {
 
         const res = await axios.get("http://localhost:8080/user", axiosConfig);
         console.log(res.data);
-        this.setState({ loading: false, user: res.data });
+        this.setState({ user: res.data });
         console.log(this.state.user);
     }
 
