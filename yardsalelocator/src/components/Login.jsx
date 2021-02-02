@@ -9,8 +9,6 @@ export class Login extends Component {
             username: "",
             password: "",
             redirectToReferrer: false,
-            // hasLoginFailed: false,
-            // showSuccessMessage: false,
         };
         this.handleChange = this.handleChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -25,19 +23,22 @@ export class Login extends Component {
         let userInfo = {
             username: this.state.username,
             password: this.state.password
-        }
+        };
         let axiosConfig = {
             headers: {}
         };
+        localStorage.setItem("userName", userInfo.username);
+        
         axios.post("http://localhost:8080/login", userInfo, axiosConfig)
             .then(res => { localStorage.setItem("userToken", res.headers.authorization) })
-            .then(setTimeout(() => {this.redirectLine()}, 500 ));
+            .then(setTimeout(() => { this.redirectLine() }, 500));            
     }
 
     redirectLine() {
-        if(localStorage.getItem("userToken") === null) {
-        alert("Please verify your credentials and log in again.")}
-        else{
+        if (localStorage.getItem("userToken") === null) {
+            alert("Please verify your credentials and log in again.")
+        }
+        else {
             alert("You are logged in")
             this.setState({ redirectToReferrer: true })
         }
