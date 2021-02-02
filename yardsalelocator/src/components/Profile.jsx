@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import axios from 'axios';
+import './Profile.css';
 
 export class Profile extends Component {
     constructor(props) {
