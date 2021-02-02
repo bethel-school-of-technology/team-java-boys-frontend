@@ -7,7 +7,7 @@ import axios from "axios";
 import moment from 'moment';
 import Geocoder from "react-map-gl-geocoder";
 
-import DeckGL, { GeoJsonLayer } from "deck.gl";
+import { GeoJsonLayer } from "deck.gl";
 
 const MAPBOX_TOKEN = "pk.eyJ1IjoidGhlamF2YWJveXMiLCJhIjoiY2trNGsyYTd5MGMxYTJvdGh5MzJoZGNoaiJ9.5NRGHn_waxDVcG8__PJ_eA";
 
@@ -132,7 +132,7 @@ class Home extends Component {
 				width: "80vw",
 				latitude: position.coords.latitude,
 				longitude: position.coords.longitude,
-				zoom: 10,
+				zoom: 13,
 			};
 			this.setState({
 				viewport: newViewport,
@@ -193,7 +193,7 @@ class Home extends Component {
 	};
 
 	render() {
-		const { viewport, searchResultLayer } = this.state;
+		const { viewport } = this.state;
 		return (
 			<div className="Home">
 				<MapGL
@@ -230,7 +230,6 @@ class Home extends Component {
 							<p><b>Time: </b>{moment(this.state.selectedSale.startTime).format("h:mm:ss a")} to {moment(this.state.selectedSale.endTime).format("h:mm:ss a")}</p>
 						</Popup>
 					) : null}
-					<DeckGL {...viewport} layers={[searchResultLayer]} />
 					<div style={{ position: "absolute", right: 1 }}>
 						<button onClick={this.setUserLocation}>My Location</button>
 						</div>
