@@ -6,6 +6,10 @@ img {
     width:0;
     height:0;
   }
+
+  .mapboxgl-popup {
+    max-width: 70%;
+  }
   
   .marker  span {
     display:flex;
