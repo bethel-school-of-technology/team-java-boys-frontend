@@ -6,15 +6,16 @@ import { Marker, NavigationControl, Popup } from "react-map-gl";
 import axios from "axios";
 import moment from 'moment';
 import Geocoder from "react-map-gl-geocoder";
-import DeckGL, { GeoJsonLayer } from "deck.gl";
+
+import { GeoJsonLayer } from "deck.gl";
 
 const MAPBOX_TOKEN = "pk.eyJ1IjoidGhlamF2YWJveXMiLCJhIjoiY2trNGsyYTd5MGMxYTJvdGh5MzJoZGNoaiJ9.5NRGHn_waxDVcG8__PJ_eA";
 
 class Home extends Component {
 	state = {
 		viewport: {
-			width: 400,
-			height: 400,
+			width: '90vw',
+			height: '80vh',
 			latitude: 37.7577,
 			longitude: -122.4376,
 			zoom: 8,
@@ -44,12 +45,12 @@ class Home extends Component {
       combinedData3.push(combinedData2);
       this.setState({ combinedStates: combinedData3})
     };
-    this.checkState();   
+    // this.checkState();   
   }
   
-  checkState = () => {
-    console.log(this.state);
-  };
+//   checkState = () => {
+//     console.log(this.state);
+//   };
 
 	async getPostData() {
 		let axiosConfig = {
@@ -61,15 +62,15 @@ class Home extends Component {
 		const res = await axios.get("http://localhost:8080/post", axiosConfig);
     
     let postDateData = res.data;
-		console.log(postDateData);
+		// console.log(postDateData);
 		let validPost=[];
 		for(var i = 0; i < postDateData.length; i++){
 			let endPostDate = (moment(postDateData[i].endDate).format());
-			console.log(endPostDate);
+			// console.log(endPostDate);
 			let todaysDate= (moment(new Date()).format());
-			console.log(todaysDate);
+			// console.log(todaysDate);
 			if(todaysDate <= endPostDate){
-				console.log(endPostDate + " is after " + todaysDate);
+				// console.log(endPostDate + " is after " + todaysDate);
 				validPost.push(postDateData[i]);
 			} 
     };
@@ -85,15 +86,16 @@ class Home extends Component {
 
 	resize = () => {
 		this.handleViewportChange({
-		  width: window.innerWidth,
-		  height: window.innerHeight
+		  width: '90vw',
+		  height: '80vh'
 		});
 	  };
 	
 	  handleViewportChange = viewport => {
 		this.setState({
 		  viewport: { ...this.state.viewport, ...viewport }
-		});
+		});		
+		// console.log(this.state.viewport);
 	  };
 	
 	
@@ -128,10 +130,10 @@ class Home extends Component {
 			};
 			let newViewport = {
 				height: "80vh",
-				width: "80vw",
+				width: "90vw",
 				latitude: position.coords.latitude,
 				longitude: position.coords.longitude,
-				zoom: 10,
+				zoom: 13,
 			};
 			this.setState({
 				viewport: newViewport,
@@ -182,7 +184,7 @@ class Home extends Component {
 
 	setSelectedSale = (object) => {
     this.setState({ selectedSale: object });
-    console.log(this.state.selectedSale);
+    // console.log(this.state.selectedSale);
 	};
 
 	closePopup = () => {
@@ -192,7 +194,7 @@ class Home extends Component {
 	};
 
 	render() {
-		const { viewport, searchResultLayer } = this.state;
+		const { viewport } = this.state;
 		return (
 			<div className="Home">
 				<MapGL
@@ -229,7 +231,6 @@ class Home extends Component {
 							<p><b>Time: </b>{moment(this.state.selectedSale.startTime).format("h:mm:ss a")} to {moment(this.state.selectedSale.endTime).format("h:mm:ss a")}</p>
 						</Popup>
 					) : null}
-					<DeckGL {...viewport} layers={[searchResultLayer]} />
 					<div style={{ position: "absolute", right: 1 }}>
 						<button onClick={this.setUserLocation}>My Location</button>
 						</div>

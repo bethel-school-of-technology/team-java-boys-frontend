@@ -1,22 +1,20 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 
-export class Signout extends Component {
+export class Loading extends Component {
     
     componentDidMount() {
-        window.localStorage.clear();
         window.location.reload();
-
     }
 
 
     render() {
         return (
             <div>
-                <Redirect to="/" />
+                <Redirect to="/post" />
             </div>
         )
     }
 }
 
-export default Signout
+export default Loading

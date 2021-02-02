@@ -1,11 +1,9 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
 import ReactTable from "react-table";
-import CreatePost from "./CreatePost";
-import { Link, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "reactstrap";
 import moment from "moment";
-
 import "react-table/react-table.css";
 //Axios info site: github.com/axios/axios
 
@@ -46,6 +44,7 @@ export default class Posts extends Component {
 
 	componentDidMount() {
 		this.getPostData();
+		//window.location.reload();
 	}
 
 
@@ -117,7 +116,6 @@ export default class Posts extends Component {
 					<Button>
 						<Link to="/createpost">Create New Post </Link>
 					</Button>
-					<Route path="/createpost" component={CreatePost} />
 				</div>
 			</>
 		);
