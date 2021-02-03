@@ -6,7 +6,7 @@ export class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: []
+            user: {}
         };
     }
 
@@ -17,7 +17,7 @@ export class Profile extends Component {
             }
         };
 
-        const res = await axios.get("http://localhost:8080/user", axiosConfig);
+        const res = await axios.get("http://localhost:8080/user/profile", axiosConfig);
         console.log(res.data);
         this.setState({ user: res.data });
     }
@@ -29,29 +29,29 @@ export class Profile extends Component {
     render() {
         return (
             <div>
-                {this.state.user.map((item, index) => (
+                {/* {this.state.user.map((item, index) => ( */}
                     <div>
-                        {localStorage.getItem('userName') === item.username ?
-                            <div key={index}>
+                        
+                            <div >
                                 <h4>Username</h4>
-                                <p>{item.username}</p>
+                                <p>{this.state.user.username}</p>
                                 <h4>Email</h4>
-                                <p>{item.email}</p>
+                                <p>{this.state.user.email}</p>
                                 <h4>First Name</h4>
-                                <p>{item.firstName}</p>
+                                <p>{this.state.user.firstName}</p>
                                 <h4>Last Name</h4>
-                                <p>{item.lastName}</p>
+                                <p>{this.state.user.lastName}</p>
                                 <h4>Address</h4>
-                                <p>{item.streetAddress}</p>
+                                <p>{this.state.user.streetAddress}</p>
                                 <h4>City</h4>
-                                <p>{item.city}</p>
+                                <p>{this.state.user.city}</p>
                                 <h4>State</h4>
-                                <p>{item.state}</p>
+                                <p>{this.state.user.state}</p>
                                 <h4>Zip Code</h4>
-                                <p>{item.zip}</p>
-                            </div> : null}
+                                <p>{this.state.user.zip}</p>
+                            </div>
                     </div>
-                ))}
+                 {/* ))} */}
             </div>
         )
     }
