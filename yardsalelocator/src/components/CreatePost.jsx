@@ -4,6 +4,7 @@ import { categoryOptions } from "../docs/data";
 import DatePicker from "react-datepicker";
 import "react-time-picker/dist/TimePicker.css";
 import "react-datepicker/dist/react-datepicker.css";
+import axios from "axios";
 
 export class CreatePost extends Component {
 	constructor(props) {
@@ -18,6 +19,9 @@ export class CreatePost extends Component {
 			startTime: "",
 			endTime: "",
 			categories: "",
+			longitude: "",
+			latitude: "",
+			address: "",
 		};
 		this.handleStartChange = this.handleStartChange.bind(this);
 		this.handleEndChange = this.handleEndChange.bind(this);
@@ -32,7 +36,29 @@ export class CreatePost extends Component {
 
 	handleSubmit = (event) => {
 		event.preventDefault();
-		const url = "http://localhost:8080/post";
+		this.getCoords();
+	};
+
+
+	async getCoords() {		
+		let address1 = (this.state.streetAddress + " " + this.state.city + " " + this.state.state + " " + this.state.zip);
+		const res = await axios.get("https://maps.googleapis.com/maps/api/geocode/json?", {
+				params: {
+					address: address1,
+					key: "AIzaSyAjdutfxpJvuPljbVNmz9Zh8YlWkYg9eNQ",
+				},
+			});
+		let lat= (res.data.results[0].geometry.location.lat).toString();
+		let long= (res.data.results[0].geometry.location.lng).toString();
+		this.setState({ 
+			longitude: long, 
+			latitude: lat, 
+			address: address1,
+		});
+		this.sendPostData();
+	}
+
+	sendPostData = () => {
 		const data = {
 			streetAddress: this.state.streetAddress,
 			city: this.state.city,
@@ -43,14 +69,21 @@ export class CreatePost extends Component {
 			startTime: this.state.startTime,
 			endTime: this.state.endTime,
 			categories: this.state.categories,
+			longitude: this.state.longitude,
+			latitude: this.state.latitude,
+			address: this.state.address,
 		};
-		console.log(data);
-		fetch(url, { method: "POST", body: JSON.stringify(data), headers: { "Content-Type": "application/json", "Authorization": localStorage.getItem("userToken") } })
-			.then((res) => res.json())
-			.catch((error) => console.error("Error:", error))
-			.then((response) => console.log("Success:", response))
-			.then(this.reRender());
-	};
+		console.log(JSON.stringify(data));
+		let axiosConfig = {
+			headers: {
+				Authorization: localStorage.getItem("userToken"),
+				"Content-Type": "application/json"
+			},
+		};
+		axios.post ('http://localhost:8080/post', JSON.stringify(data), axiosConfig)
+		.then((response) => console.log("Success:", response))
+		.then(setTimeout(() => { this.reRender() }, 500));
+	}
 
 	reRender = () => {
 		alert("Post Submitted");
@@ -87,7 +120,6 @@ export class CreatePost extends Component {
 
 			values.push(categories[i].label)}
 			let valuesStringified=values.toString();
-			console.log(valuesStringified); 
 
 		this.setState({
 			categories: valuesStringified
