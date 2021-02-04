@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { Button } from "reactstrap";
 import moment from "moment";
 import "react-table/react-table.css";
-//Axios info site: github.com/axios/axios
 
 export default class Posts extends Component {
 	constructor(props) {

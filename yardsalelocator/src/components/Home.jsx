@@ -22,35 +22,13 @@ class Home extends Component {
 		},
 		userLocation: {},
     selectedSale: null,
-		yardSaleLocations: [],
-		yardSaleCoords: [],
     yardSaleInformation: [],
-    combinedStates: [],
     searchResultLayer: null
   };
 
   mapRef = React.createRef();
 
-  combineStates = () => {
-    let combinedData3= [];
-    let yardSaleInformation = this.state.yardSaleInformation;
-    for(var i=0; i < yardSaleInformation.length ; i++){
-      let yardSaleCoords = this.state.yardSaleCoords[i];
-      // console.log(yardSaleCoords);
-      let yardSaleLocations = {address: this.state.yardSaleLocations[i]};
-      // console.log(yardSaleLocations);
-      // console.log(yardSaleInformation[i]);
-      const combinedData=Object.assign(yardSaleInformation[i], yardSaleLocations );
-      const combinedData2=Object.assign(combinedData, yardSaleCoords );
-      combinedData3.push(combinedData2);
-      this.setState({ combinedStates: combinedData3})
-    };
-    // this.checkState();   
-  }
   
-//   checkState = () => {
-//     console.log(this.state);
-//   };
 
 	async getPostData() {
 		let axiosConfig = {
@@ -61,27 +39,17 @@ class Home extends Component {
 
 		const res = await axios.get("http://localhost:8080/post", axiosConfig);
     
-    let postDateData = res.data;
-		// console.log(postDateData);
+	let postDateData = res.data;
 		let validPost=[];
 		for(var i = 0; i < postDateData.length; i++){
 			let endPostDate = (moment(postDateData[i].endDate).format());
-			// console.log(endPostDate);
 			let todaysDate= (moment(new Date()).format());
-			// console.log(todaysDate);
-			if(todaysDate <= endPostDate){
-				// console.log(endPostDate + " is after " + todaysDate);
+			if(todaysDate <= endPostDate){;
 				validPost.push(postDateData[i]);
 			} 
     };
-    
-		let address = [];
-		for (i = 0; i < validPost.length; i++) {
-			address.push(validPost[i].streetAddress + " " + validPost[i].city + " " + validPost[i].state + " " + validPost[i].zip);
-      this.setState({ yardSaleLocations: address });
-    }
     this.setState({ yardSaleInformation: validPost });
-    this.getYardsSaleCoords();
+	console.log(this.state);
 	}
 
 	resize = () => {
@@ -95,7 +63,6 @@ class Home extends Component {
 		this.setState({
 		  viewport: { ...this.state.viewport, ...viewport }
 		});		
-		// console.log(this.state.viewport);
 	  };
 	
 	
@@ -141,33 +108,15 @@ class Home extends Component {
 			});
 		});
 	};
-
-	async getYardsSaleCoords() {
-		let yardSaleLocations = this.state.yardSaleLocations;
-		let coordsArray = [];
-		for (var i = 0; i < yardSaleLocations.length; i++) {
-			const res = await axios.get("https://maps.googleapis.com/maps/api/geocode/json?", {
-				params: {
-					address: yardSaleLocations[i],
-					key: "AIzaSyAjdutfxpJvuPljbVNmz9Zh8YlWkYg9eNQ",
-				},
-			});
-
-			let data = res.data.results[0].geometry.location;
-			coordsArray.push(data);
-		}
-    this.setState({ yardSaleCoords: coordsArray });
-    this.combineStates();
-  }
   
  
 
 	addMarkers = () => {
-		let combinedStates = this.state.combinedStates;
-		for (var i = 0; i < combinedStates.length; i++) {
-			return this.state.combinedStates.map((spot) => {
+		let yardSaleInformation = this.state.yardSaleInformation;
+		for (var i = 0; i < yardSaleInformation.length; i++) {
+			return this.state.yardSaleInformation.map(spot => {
 				return (
-					<Marker key={spot.lat} latitude={parseFloat(spot.lat)} longitude={parseFloat(spot.lng)}>
+					<Marker key={spot.id} latitude={parseFloat(spot.latitude)} longitude={parseFloat(spot.longitude)}>
 						<img
 							onClick={() => {
 								this.setSelectedSale(spot);
@@ -183,8 +132,7 @@ class Home extends Component {
 	};
 
 	setSelectedSale = (object) => {
-    this.setState({ selectedSale: object });
-    // console.log(this.state.selectedSale);
+	this.setState({ selectedSale: object });
 	};
 
 	closePopup = () => {
@@ -221,8 +169,8 @@ class Home extends Component {
 					{this.addMarkers()}
 					{this.state.selectedSale !== null ? (
 						<Popup
-							latitude={parseFloat(this.state.selectedSale.lat)}
-							longitude={parseFloat(this.state.selectedSale.lng)}
+							latitude={parseFloat(this.state.selectedSale.latitude)}
+							longitude={parseFloat(this.state.selectedSale.longitude)}
               onClose={this.closePopup}
 						>
 							<p><b>Address: </b>{this.state.selectedSale.address}</p>
