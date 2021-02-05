@@ -7,6 +7,11 @@ img {
     height:0;
   }
 
+  .zoomrequest {    
+    margin-left: '300px';
+    color:#3546df;
+  }
+
   .mapboxgl-popup {
     max-width: 70%;
   }
