@@ -117,7 +117,7 @@ class Home extends Component {
 			for (var i = 0; i < yardSaleInformation.length; i++) {
 				// console.log(parseInt(yardSaleInformation[i].latitude * 10) + ' ' + parseInt(this.state.userLocation.lat *10));
 				// console.log(parseInt(yardSaleInformation[i].longitude* 10) + ' ' + parseInt(this.state.userLocation.long* 10));
-				if((parseInt(yardSaleInformation[i].latitude) === parseInt(this.state.userLocation.lat)) && (parseInt(yardSaleInformation[i].longitude) === parseInt(this.state.userLocation.long)) ) {
+				if((parseInt(yardSaleInformation[i].latitude) === parseInt(this.state.viewport.latitude)) && (parseInt(yardSaleInformation[i].longitude) === parseInt(this.state.viewport.longitude)) ) {
 				return this.state.yardSaleInformation.map(spot => {
 					return (
 						<Marker key={spot.id} latitude={parseFloat(spot.latitude)} longitude={parseFloat(spot.longitude)}>
