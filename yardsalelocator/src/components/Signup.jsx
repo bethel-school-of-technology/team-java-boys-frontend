@@ -39,12 +39,12 @@ export class Signup extends Component {
 			firstName: this.state.firstName,
 			lastName: this.state.lastName,
 		};
-		console.log(data);
+		// console.log(data);
 		fetch(url, { method: "POST", body: JSON.stringify(data), headers: { "Content-Type": "application/json" } })
 			.then((res) => res.json())
 			.catch((error) => console.error("Error:", error))
 			.then((response) => console.log("Success:", response));
-			console.log(fetch);
+			// console.log(fetch);
 			this.props.history.push('/login');
 	} else { alert("Passwords do not match.")}
 	};
