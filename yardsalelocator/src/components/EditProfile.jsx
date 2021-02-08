@@ -39,17 +39,18 @@ export class EditProfile extends Component {
 			streetAddress: this.state.streetAddress,
 			city: this.state.city,
 			state: this.state.state,
-			zip: this.state.zip
+			zip: this.state.zip,
+            email: this.state.email
 		};
         console.log(JSON.stringify(data));
 		let axiosConfig = {
 			headers: {
 				Authorization: localStorage.getItem("userToken"),
-				"Content-Type": "application/json"
+				"Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "http://localhost:3000"
 			},
 		};
-        let username = this.state.user.username;
-		axios.put (('http://localhost:8080/user/profile/' + username), JSON.stringify(data), axiosConfig)
+		axios.put (('http://localhost:8080/user/update'), JSON.stringify(data), axiosConfig)
 		.then((response) => console.log("Success:", response))
 		.then(setTimeout(() => { this.reRender() }, 500));
     }
@@ -74,6 +75,12 @@ export class EditProfile extends Component {
 					{" "}
 					Last Name:
 					<input type="text" name="lastName" placeholder={this.state.user.lastName} onChange={this.handleChange} />
+				</label>
+				<br />
+				<label>
+					{" "}
+					Email:
+					<input type="text" name="email" placeholder={this.state.user.email} onChange={this.handleChange} />
 				</label>
 				<br />
 				<label>
