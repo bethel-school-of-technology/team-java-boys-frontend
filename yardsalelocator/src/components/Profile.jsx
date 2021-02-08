@@ -28,30 +28,25 @@ export class Profile extends Component {
 
     render() {
         return (
-            <div>
-                {/* {this.state.user.map((item, index) => ( */}
+            <div class="container">
+                <div class="item">
+                    <p>Profile image will go here</p>
+                    <button>Upload Image</button>
+                </div>
+                <div class="item">
+                    <h1>{this.state.user.firstName} {this.state.user.lastName}</h1><br />
+                    <h4>User Name</h4>
+                    <p id="name">{this.state.user.username}</p>
+                    <p id="lName"></p>
+                    <h4>Email</h4>
+                    <p id="email">{this.state.user.email}</p>
                     <div>
-                        
-                            <div >
-                                <h4>Username</h4>
-                                <p>{this.state.user.username}</p>
-                                <h4>Email</h4>
-                                <p>{this.state.user.email}</p>
-                                <h4>First Name</h4>
-                                <p>{this.state.user.firstName}</p>
-                                <h4>Last Name</h4>
-                                <p>{this.state.user.lastName}</p>
-                                <h4>Address</h4>
-                                <p>{this.state.user.streetAddress}</p>
-                                <h4>City</h4>
-                                <p>{this.state.user.city}</p>
-                                <h4>State</h4>
-                                <p>{this.state.user.state}</p>
-                                <h4>Zip Code</h4>
-                                <p>{this.state.user.zip}</p>
-                            </div>
+                        <h4>Address</h4>
+                        <p id="address">{this.state.user.streetAddress}</p>
+                        <p id="city">{this.state.user.city}, {this.state.user.state} {this.state.user.zip}</p>
                     </div>
-                 {/* ))} */}
+                    <button>Edit Profile</button>
+                </div>
             </div>
         )
     }
