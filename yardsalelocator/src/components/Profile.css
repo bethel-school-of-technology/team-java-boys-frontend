@@ -1,0 +1,16 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: normal;
+    background: rgba(0,0,0,.2);
+    border-radius: 10px;
+    margin: auto;
+    width: 50%; 
+}
+
+.item{
+    padding: 20px;
+    color: black;
+}
