@@ -49,7 +49,7 @@ class Home extends Component {
 			} 
     };
     this.setState({ yardSaleInformation: validPost });
-	console.log(this.state);
+	// console.log(this.state);
 	}
 
 	resize = () => {
@@ -112,24 +112,37 @@ class Home extends Component {
  
 
 	addMarkers = () => {
-		let yardSaleInformation = this.state.yardSaleInformation;
-		for (var i = 0; i < yardSaleInformation.length; i++) {
-			return this.state.yardSaleInformation.map(spot => {
+		if(this.state.viewport.zoom >= 13){
+			let yardSaleInformation = this.state.yardSaleInformation;
+			for (var i = 0; i < yardSaleInformation.length; i++) {
+				// console.log(parseInt(yardSaleInformation[i].latitude * 10) + ' ' + parseInt(this.state.userLocation.lat *10));
+				// console.log(parseInt(yardSaleInformation[i].longitude* 10) + ' ' + parseInt(this.state.userLocation.long* 10));
+				if((parseInt(yardSaleInformation[i].latitude) === parseInt(this.state.viewport.latitude)) && (parseInt(yardSaleInformation[i].longitude) === parseInt(this.state.viewport.longitude)) ) {
+				return this.state.yardSaleInformation.map(spot => {
+					return (
+						<Marker key={spot.id} latitude={parseFloat(spot.latitude)} longitude={parseFloat(spot.longitude)}>
+							<img
+								onClick={() => {
+									this.setSelectedSale(spot);
+								}}
+								src="location-icon5.png"
+								alt="Im here"
+								style={{ width: "28px", height: "40px" }}
+							/>
+						</Marker>
+					);
+				});
+			}
+			}
+		} else {
 				return (
-					<Marker key={spot.id} latitude={parseFloat(spot.latitude)} longitude={parseFloat(spot.longitude)}>
-						<img
-							onClick={() => {
-								this.setSelectedSale(spot);
-							}}
-							src="location-icon5.png"
-							alt="Im here"
-							style={{ width: "28px", height: "40px" }}
-						/>
-					</Marker>
+					<div className="zoomrequest">
+					<br />
+						<h2>Please zoom in to see results</h2>
+						</div>
 				);
-			});
 		}
-	};
+	}
 
 	setSelectedSale = (object) => {
 	this.setState({ selectedSale: object });
