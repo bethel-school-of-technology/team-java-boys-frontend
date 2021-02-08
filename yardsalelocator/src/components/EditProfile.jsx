@@ -18,7 +18,7 @@ export class EditProfile extends Component {
         
         const res = await axios.get("http://localhost:8080/user/profile", axiosConfig);
         this.setState({ user: res.data });
-        console.log(this.state.user);
+        // console.log(this.state.user);
     }
     
     componentDidMount() {
@@ -27,12 +27,12 @@ export class EditProfile extends Component {
 
     handleChange = (event) => {
 		this.setState({ [event.target.name]: event.target.value });
-        console.log(this.state);
+        // console.log(this.state);
 	};
 
     handleSubmit= (e) =>{
         e.preventDefault();
-        console.log(this.state)
+        // console.log(this.state)
         const data = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
@@ -42,7 +42,7 @@ export class EditProfile extends Component {
 			zip: this.state.zip,
             email: this.state.email
 		};
-        console.log(JSON.stringify(data));
+        // console.log(JSON.stringify(data));
 		let axiosConfig = {
 			headers: {
 				Authorization: localStorage.getItem("userToken"),

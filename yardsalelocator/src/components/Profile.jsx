@@ -19,7 +19,7 @@ export class Profile extends Component {
         };
 
         const res = await axios.get("http://localhost:8080/user/profile", axiosConfig);
-        console.log(res.data);
+        // console.log(res.data);
         this.setState({ user: res.data });
     }
 

@@ -73,7 +73,7 @@ export class CreatePost extends Component {
 			latitude: this.state.latitude,
 			address: this.state.address,
 		};
-		console.log(JSON.stringify(data));
+		// console.log(JSON.stringify(data));
 		let axiosConfig = {
 			headers: {
 				Authorization: localStorage.getItem("userToken"),

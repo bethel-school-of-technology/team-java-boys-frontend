@@ -25,15 +25,15 @@ export default class Posts extends Component {
 		const res = await axios.get("http://localhost:8080/post", axiosConfig);
 
 		let postDateData = res.data;
-		console.log(postDateData);
+		// console.log(postDateData);
 		let validPost=[];
 		for(var i = 0; i < postDateData.length; i++){
 			let endPostDate = (moment(postDateData[i].endDate).format());
-			console.log(endPostDate);
+			// console.log(endPostDate);
 			let todaysDate= (moment(new Date()).format());
-			console.log(todaysDate);
+			// console.log(todaysDate);
 			if(todaysDate <= endPostDate){
-				console.log(endPostDate + " is after " + todaysDate);
+				// console.log(endPostDate + " is after " + todaysDate);
 				validPost.push(postDateData[i]);
 			} 
 		};
