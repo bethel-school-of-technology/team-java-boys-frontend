@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './Profile.css';
+import { Link } from "react-router-dom";
 
 export class Profile extends Component {
     constructor(props) {
@@ -43,9 +44,9 @@ export class Profile extends Component {
                     <div>
                         <h4>Address</h4>
                         <p id="address">{this.state.user.streetAddress}</p>
-                        <p id="city">{this.state.user.city}, {this.state.user.state} {this.state.user.zip}</p>
+                        <p id="city">{this.state.user.city} {this.state.user.state} {this.state.user.zip}</p>
                     </div>
-                    <button>Edit Profile</button>
+                    <button><Link to="/editprofile">Edit Profile</Link></button>
                 </div>
             </div>
         )
