@@ -14,7 +14,7 @@ export default class Posts extends Component {
 			loading: true,
 		};
 	}
-
+//retrieving data from DB per user, so users will only have access to their own posts
 	async getPostData() {
 		let axiosConfig = {
 			headers: {
@@ -22,7 +22,7 @@ export default class Posts extends Component {
 			},
 		};
 
-		const res = await axios.get("http://localhost:8080/post", axiosConfig);
+		const res = await axios.get("http://localhost:8080/post/posts", axiosConfig);
 
 		let postDateData = res.data;
 		// console.log(postDateData);

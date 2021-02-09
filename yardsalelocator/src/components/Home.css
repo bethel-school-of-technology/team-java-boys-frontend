@@ -3,14 +3,34 @@ img {
   height: 30px
 }
 
+.home {
+border:solid 2px grey;
+max-width: 90vw;
+position: absolute;
+left: 0;
+right: 0;  
+margin: auto;
+}
+
+.navigationButton{
+  top: 3vh;
+ }
+
 .marker {
     width:0;
     height:0;
   }
 
-  .zoomrequest {    
-    margin-left: '300px';
-    color:#3546df;
+  .zoomrequest { 
+    -webkit-text-stroke-width: .5px;
+    -webkit-text-stroke-color: rgb(0, 0, 0);   
+    color:#1900ff;
+    font-size: larger;
+    position: absolute;
+    top:20vh;
+    bottom: 0;
+    left: 30vw;
+    right: 0;      
   }
 
   .mapboxgl-popup {
@@ -244,7 +264,15 @@ img {
 }
 
 /* Media queries*/
-@media screen and (min-width: 640px) {
+@media screen and (max-width: 960px) {
+
+  .locationButton {
+    top: 7vh;
+   }
+
+   .navigationButton{
+    top: 10vh;
+   }
 
   .mapboxgl-ctrl-geocoder.mapboxgl-ctrl-geocoder--collapsed {
     width: 36px;

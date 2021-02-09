@@ -9,6 +9,7 @@ export class EditProfile extends Component {
         };
     }
 
+	//retrieving user information from DB
     async getUserData() {
         let axiosConfig = {
             headers: {
@@ -29,7 +30,7 @@ export class EditProfile extends Component {
 		this.setState({ [event.target.name]: event.target.value });
         // console.log(this.state);
 	};
-
+//sending the updates to the DB
     handleSubmit= (e) =>{
         e.preventDefault();
         // console.log(this.state)
@@ -68,6 +69,7 @@ export class EditProfile extends Component {
 				<label>
 					{" "}
 					First Name:
+					{/* using placeholders with the current value of the information in their profile */}
 					<input type="text" name="firstName" placeholder={this.state.user.firstName} onChange={this.handleChange} />
 				</label>
 				<br />

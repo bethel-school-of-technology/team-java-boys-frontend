@@ -10,6 +10,7 @@ export class Navbar extends Component {
             <nav className="navbar">
                 <div className="navbar-container">
                     <Link to="/" className="navbar-logo">Yard Sale Locator</Link>
+                    {/* looking for a usertotken to apply the proper nav bar links */}
                     <div> {localStorage.getItem('userToken') === null ?
                         <ul className='nav-menu'>
                             <li className='nav-item'>

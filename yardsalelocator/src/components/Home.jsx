@@ -6,12 +6,18 @@ import { Marker, NavigationControl, Popup } from "react-map-gl";
 import axios from "axios";
 import moment from 'moment';
 import Geocoder from "react-map-gl-geocoder";
-
+import "./Home.css";
 import { GeoJsonLayer } from "deck.gl";
 
 const MAPBOX_TOKEN = "pk.eyJ1IjoidGhlamF2YWJveXMiLCJhIjoiY2trNGsyYTd5MGMxYTJvdGh5MzJoZGNoaiJ9.5NRGHn_waxDVcG8__PJ_eA";
 
 class Home extends Component {
+	//states being used; 
+	//initial viewport is for the map properties 
+	//userLocation is the browser location of the user to narrow down the inital map display (if appplicable)
+	//selectedSale is for the popup information when a user clicks on a marker
+	//yardsaleinformation is the listings of yard sale posts from the DB
+	//searchresultslayer is for the deocoding search results
 	state = {
 		viewport: {
 			width: '90vw',
@@ -29,7 +35,7 @@ class Home extends Component {
   mapRef = React.createRef();
 
   
-
+//getPostData() retrieves the yard sale posting information from the DB, filters it according to endDate vs current date, and does not add outdated posting to the state yardSaleInformation
 	async getPostData() {
 		let axiosConfig = {
 			headers: {
@@ -39,6 +45,7 @@ class Home extends Component {
 
 		const res = await axios.get("http://localhost:8080/post", axiosConfig);
     
+		//initial filtration of post data for current dates only
 	let postDateData = res.data;
 		let validPost=[];
 		for(var i = 0; i < postDateData.length; i++){
@@ -52,6 +59,7 @@ class Home extends Component {
 	// console.log(this.state);
 	}
 
+	//resize() keeps the constant frame size of the map, makes it responsive
 	resize = () => {
 		this.handleViewportChange({
 		  width: '90vw',
@@ -59,13 +67,14 @@ class Home extends Component {
 		});
 	  };
 	
+	  //handleViewportChange updates the state when a user moves the map, required to prevent the map from "snapping" back to state settings
 	  handleViewportChange = viewport => {
 		this.setState({
 		  viewport: { ...this.state.viewport, ...viewport }
 		});		
 	  };
 	
-	
+	//Geocode (address earch field) state change for the searched results from user
 	  handleOnResult = event => {
 		this.setState({
 		  searchResultLayer: new GeoJsonLayer({
@@ -89,6 +98,7 @@ class Home extends Component {
 	  window.removeEventListener("resize", this.resize);
 	}
 
+	//setUserLocation(): receives the user location from their browser information and sets the initial view of the map to it. It also updates the viewport to their location.
 	setUserLocation = () => {
 		navigator.geolocation.getCurrentPosition((position) => {
 			let setUserLocation = {
@@ -110,13 +120,13 @@ class Home extends Component {
 	};
   
  
-
+//addMarkers() takes the yardSaleInformation state, filters them by the longitude and latitude (whole number no decimals), and then applies a marker for each location to the map.
 	addMarkers = () => {
+		//if statement will only populate markers if the user is zoomed in far enough
 		if(this.state.viewport.zoom >= 13){
 			let yardSaleInformation = this.state.yardSaleInformation;
+			//for -> if statement cycles through the post information and will only apply markers that are within the user viewport range
 			for (var i = 0; i < yardSaleInformation.length; i++) {
-				// console.log(parseInt(yardSaleInformation[i].latitude * 10) + ' ' + parseInt(this.state.userLocation.lat *10));
-				// console.log(parseInt(yardSaleInformation[i].longitude* 10) + ' ' + parseInt(this.state.userLocation.long* 10));
 				if((parseInt(yardSaleInformation[i].latitude) === parseInt(this.state.viewport.latitude)) && (parseInt(yardSaleInformation[i].longitude) === parseInt(this.state.viewport.longitude)) ) {
 				return this.state.yardSaleInformation.map(spot => {
 					return (
@@ -137,13 +147,13 @@ class Home extends Component {
 		} else {
 				return (
 					<div className="zoomrequest">
-					<br />
 						<h2>Please zoom in to see results</h2>
 						</div>
 				);
 		}
 	}
 
+	//user clicking on a marker sets the state for selectedSale
 	setSelectedSale = (object) => {
 	this.setState({ selectedSale: object });
 	};
@@ -157,7 +167,7 @@ class Home extends Component {
 	render() {
 		const { viewport } = this.state;
 		return (
-			<div className="Home">
+			<div className="home">
 				<MapGL
 				mapStyle="mapbox://styles/mapbox/outdoors-v11"
         ref={this.mapRef}
@@ -192,10 +202,10 @@ class Home extends Component {
 							<p><b>Time: </b>{moment(this.state.selectedSale.startTime).format("h:mm:ss a")} to {moment(this.state.selectedSale.endTime).format("h:mm:ss a")}</p>
 						</Popup>
 					) : null}
-					<div style={{ position: "absolute", right: 1 }}>
+					<div className="locationButton" style={{ position: "absolute", right: 1 }}>
 						<button onClick={this.setUserLocation}>My Location</button>
 						</div>
-						<div style={{ position: "absolute", right: 1, top:28 }}>
+						<div className="navigationButton" style={{ position: "absolute", right: 1 }}>
 						<NavigationControl />
 					</div>
 				</MapGL>

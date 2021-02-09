@@ -10,7 +10,7 @@ export class Profile extends Component {
             user: {}
         };
     }
-
+//retrieving a users Information from the database to be displayed below.
     async getUserData() {
         let axiosConfig = {
             headers: {

@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 
 export class CreatePost extends Component {
+	//several states used to ensure independence between elements and to negate any negative overlap
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -29,7 +30,7 @@ export class CreatePost extends Component {
 		this.handleStartTime = this.handleStartTime.bind(this);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
 	}
-
+//when an inout field is changed, the state is updated accordingly
 	handleChange = (event) => {
 		this.setState({ [event.target.name]: event.target.value });
 	};
@@ -39,7 +40,7 @@ export class CreatePost extends Component {
 		this.getCoords();
 	};
 
-
+//when a user adds an address to the posting, Google maps is used to turn the address into a longitude and latitude coordinates for the map features on the homepage. Doing it here cuts down on resource usage
 	async getCoords() {		
 		let address1 = (this.state.streetAddress + " " + this.state.city + " " + this.state.state + " " + this.state.zip);
 		const res = await axios.get("https://maps.googleapis.com/maps/api/geocode/json?", {
@@ -58,6 +59,7 @@ export class CreatePost extends Component {
 		this.sendPostData();
 	}
 
+	//sends the post data to the DB 
 	sendPostData = () => {
 		const data = {
 			streetAddress: this.state.streetAddress,
@@ -89,7 +91,7 @@ export class CreatePost extends Component {
 		alert("Post Submitted");
 		this.props.history.push('/post');
 	}
-
+//these next four handle when a user selects dates and times and applies them to their corresponding states
 	handleEndTime(endTime) {
 		this.setState({
 			endTime: endTime,
@@ -113,7 +115,7 @@ export class CreatePost extends Component {
 			endDate: endDate,
 		});
 	}
-
+//similiar to the dates/times, but for the category selections
 	handleSelectionChange = (categories) => {
 		let values = [];
 		for (var i = 0; i < categories.length; i++) {
