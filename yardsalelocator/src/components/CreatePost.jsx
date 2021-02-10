@@ -117,8 +117,8 @@ export class CreatePost extends Component {
 	handleDateChange(data, picker) {
 		console.log(picker.startDate + " " + picker.endDate);
 		this.setState({
-			startDate: picker.startDate.format('MMMM DD, yyyy'),
-			endDate: picker.endDate.format('MMMM DD, yyyy')
+			startDate: picker.startDate,
+			endDate: picker.endDate
 		});
 		console.log(this.state);
 	}
