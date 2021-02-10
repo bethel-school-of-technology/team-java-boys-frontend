@@ -17,6 +17,7 @@
     "mapbox-gl": "^2.0.1",
     "moment": "^2.29.1",
     "react": "^17.0.1",
+    "react-bootstrap": "^1.4.3",
     "react-bootstrap-daterangepicker": "^7.0.0",
     "react-bootstrap-datetimepicker": "0.0.22",
     "react-datepicker": "^3.4.1",

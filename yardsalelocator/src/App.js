@@ -1,4 +1,4 @@
-import Navbar from "./components/Navbar";
+import MyNavbar from "./components/Navbar";
 import './App.css';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 import CreatePost from './components/CreatePost';
@@ -19,7 +19,7 @@ function App() {
 
       <div>
         <Router>
-          <Navbar />
+          <MyNavbar />
           <Route exact path='/' component={Home} />
           <Route path='/login' component={Login} />
           <Route path='/register' component={Signup} />
