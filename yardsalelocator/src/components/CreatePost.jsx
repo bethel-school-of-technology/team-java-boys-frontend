@@ -2,9 +2,14 @@ import React, { Component } from "react";
 import Select from "react-select";
 import { categoryOptions } from "../docs/data";
 import DatePicker from "react-datepicker";
+import DateRangePicker from 'react-bootstrap-daterangepicker';
+import 'bootstrap-daterangepicker/daterangepicker.css';
 import "react-time-picker/dist/TimePicker.css";
 import "react-datepicker/dist/react-datepicker.css";
+// import "../../node_modules/bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
+import moment from "moment";
+// import { DateTime } from 'react-datetime-bootstrap';
 
 export class CreatePost extends Component {
 	//several states used to ensure independence between elements and to negate any negative overlap
@@ -24,8 +29,7 @@ export class CreatePost extends Component {
 			latitude: "",
 			address: "",
 		};
-		this.handleStartChange = this.handleStartChange.bind(this);
-		this.handleEndChange = this.handleEndChange.bind(this);
+		this.handleDateChange = this.handleDateChange.bind(this);
 		this.handleEndTime = this.handleEndTime.bind(this);
 		this.handleStartTime = this.handleStartTime.bind(this);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -91,11 +95,17 @@ export class CreatePost extends Component {
 		alert("Post Submitted");
 		this.props.history.push('/post');
 	}
-//these next four handle when a user selects dates and times and applies them to their corresponding states
+//these next three handle when a user selects dates and times and applies them to their corresponding states
 	handleEndTime(endTime) {
 		this.setState({
 			endTime: endTime,
 		});
+		this.checkState();
+	}
+
+	checkState() {		
+		console.log(moment(this.state.startTime).format("h:mm:ss a"));
+		console.log(moment(this.state.endTime).format("h:mm:ss a"));
 	}
 
 	handleStartTime(startTime) {
@@ -104,17 +114,15 @@ export class CreatePost extends Component {
 		});
 	}
 
-	handleStartChange(startDate) {
+	handleDateChange(data, picker) {
+		console.log(picker.startDate + " " + picker.endDate);
 		this.setState({
-			startDate: startDate,
+			startDate: picker.startDate.format('MMMM DD, yyyy'),
+			endDate: picker.endDate.format('MMMM DD, yyyy')
 		});
+		console.log(this.state);
 	}
 
-	handleEndChange(endDate) {
-		this.setState({
-			endDate: endDate,
-		});
-	}
 //similiar to the dates/times, but for the category selections
 	handleSelectionChange = (categories) => {
 		let values = [];
@@ -159,23 +167,17 @@ export class CreatePost extends Component {
 					<input type="text" name="zip" onChange={this.handleChange} />
 				</label>
 				<br />
-
 				<label onClick={(e) => e.preventDefault()}>
 					{" "}
 					Start and End Date:
 					<div>
-						<DatePicker
-							placeholderText="Start Date"
-							selected={this.state.startDate}
-							onChange={this.handleStartChange}
-							dateFormat="MMMM d, yyyy"
-						/>
-						<DatePicker
-							placeholderText="End Date"
-							selected={this.state.endDate}
-							onChange={this.handleEndChange}
-							dateFormat="MMMM d, yyyy"
-						/>
+					<DateRangePicker 
+						initialSettings={{ startDate: moment().toDate(), endDate: moment().add(1, "days"), minDate:moment().toDate(), maxSpan:{"days": 2 }} }
+						dateFormat="MMMM d, yyyy"
+						onEvent={this.handleDateChange} 
+					>
+  						<input type="text" className="form-control" />
+					</DateRangePicker>
 					</div>
 				</label>
 				<label onClick={(e) => e.preventDefault()}>
@@ -188,7 +190,7 @@ export class CreatePost extends Component {
 							onChange={this.handleStartTime}
 							showTimeSelect
 							showTimeSelectOnly
-							timeIntervals={60}
+							timeIntervals={30}
 							dateFormat="hh:mm aa"
 						/>
 						<DatePicker
@@ -197,7 +199,7 @@ export class CreatePost extends Component {
 							onChange={this.handleEndTime}
 							showTimeSelect
 							showTimeSelectOnly
-							timeIntervals={60}
+							timeIntervals={30}
 							dateFormat="hh:mm aa"
 						/>
 					</div>
