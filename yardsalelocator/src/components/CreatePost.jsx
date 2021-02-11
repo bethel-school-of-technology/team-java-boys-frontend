@@ -33,6 +33,7 @@ export class CreatePost extends Component {
 		this.handleEndTime = this.handleEndTime.bind(this);
 		this.handleStartTime = this.handleStartTime.bind(this);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
+		this.getUserData = this.getUserData.bind(this);
 	}
 //when an inout field is changed, the state is updated accordingly
 	handleChange = (event) => {
@@ -136,6 +137,23 @@ export class CreatePost extends Component {
 		});
 	};
 
+	async getUserData(e) {
+		e.preventDefault();
+			let axiosConfig = {
+				headers: {
+					"Authorization": localStorage.getItem("userToken")
+				}
+			};
+			
+			const res = await axios.get("http://localhost:8080/user/profile", axiosConfig);
+		this.setState({ streetAddress : res.data.streetAddress,
+			city : res.data.city,
+			state : res.data.state,
+			zip : res.data.zip });
+		console.log(this.state);
+		}
+	
+
 	onFormSubmit(e) {
 		e.preventDefault();
 	}
@@ -143,28 +161,30 @@ export class CreatePost extends Component {
 	render() {
 		return (
 			<form onSubmit={this.handleSubmit}>
+				<button onClick={this.getUserData} >Use Default Address</button>
+				<br/>
 				<label>
 					{" "}
 					Street Address:
-					<input type="text" name="streetAddress" onChange={this.handleChange} />
+					<input type="text" name="streetAddress" onChange={this.handleChange} placeholder={this.state.streetAddress} />
 				</label>
 				<br />
 				<label>
 					{" "}
 					City:
-					<input type="text" name="city" onChange={this.handleChange} />
+					<input type="text" name="city" onChange={this.handleChange} placeholder={this.state.city}/>
 				</label>
 				<br />
 				<label>
 					{" "}
 					State:
-					<input type="text" name="state" onChange={this.handleChange} />
+					<input type="text" name="state" onChange={this.handleChange} placeholder={this.state.state}/>
 				</label>
 				<br />
 				<label>
 					{" "}
 					Zip Code:
-					<input type="text" name="zip" onChange={this.handleChange} />
+					<input type="text" name="zip" onChange={this.handleChange} placeholder={this.state.zip}/>
 				</label>
 				<br />
 				<label onClick={(e) => e.preventDefault()}>
@@ -180,6 +200,7 @@ export class CreatePost extends Component {
 					</DateRangePicker>
 					</div>
 				</label>
+				<br/>
 				<label onClick={(e) => e.preventDefault()}>
 					{" "}
 					Start and End Times:
@@ -216,7 +237,7 @@ export class CreatePost extends Component {
 						onChange={this.handleSelectionChange}
 					/>
 
-					<button className="btn btn-default" type="submit">
+					<button type="submit">
 						Submit
 					</button>
 				</div>
