@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export class EditProfile extends Component {
     constructor(props) {
@@ -28,13 +29,11 @@ export class EditProfile extends Component {
 
     handleChange = (event) => {
 		this.setState({ [event.target.name]: event.target.value });
-        // console.log(this.state);
 	};
 //sending the updates to the DB
     handleSubmit= (e) =>{
-        e.preventDefault();
-        // console.log(this.state)
-        const data = {
+		e.preventDefault();
+		const data = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
 			streetAddress: this.state.streetAddress,
@@ -43,6 +42,28 @@ export class EditProfile extends Component {
 			zip: this.state.zip,
             email: this.state.email
 		};
+		let zipReg = /^[0-9]{5}(?:-[0-9]{4})?$/;
+		let emailReg = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+		let stateReg= /^([Aa][LKSZRAEPlkszraep]|[Cc][AOTaot]|[Dd][ECec]|[Ff][LMlm]|[Gg][AUau]|[Hh][Ii]|[Ii][ADLNadln]|[Kk][SYsy]|[Ll][Aa]|[Mm][ADEHINOPSTadehinopst]|[Nn][CDEHJMVYcdehjmvy]|[Oo][HKRhkr]|[Pp][ARWarw]|[Rr][Ii]|[Ss][CDcd]|[Tt][NXnx]|[Uu][Tt]|[Vv][AITait]|[Ww][AIVYaivy])$/;
+		if(!(data.zip === undefined) && !(zipReg.test(data.zip)) ){
+				alert("Please enter valid zip code");
+				e.preventDefault();		
+				return; 
+		}
+		if(!(data.email === undefined) && !(emailReg.test(data.email))) {
+					alert("Please enter valid email address");
+					e.preventDefault();
+					return; 
+		}
+		if(!(data.state === undefined) && !(stateReg.test(data.state))) {
+				alert("Please enter a valid abbreviated State. \n Ie:");
+				e.preventDefault();
+				return; 
+		}
+		else{
+			e.preventDefault();
+        // console.log(this.state)
+        
         // console.log(JSON.stringify(data));
 		let axiosConfig = {
 			headers: {
@@ -55,6 +76,7 @@ export class EditProfile extends Component {
 		.then((response) => console.log("Success:", response))
 		.then(setTimeout(() => { this.reRender() }, 500));
     }
+}
 
     reRender = () => {
 		alert("Profile Changes Submitted");
@@ -109,9 +131,10 @@ export class EditProfile extends Component {
 					<input type="text" name="zip" placeholder={this.state.user.zip} onChange={this.handleChange} />
 				</label>
 				<br />
-					<button className="btn btn-default" type="submit">
+					<button type="submit">
 						Submit
 					</button>
+					<button><Link to="/profile">Cancel</Link></button>
 			</form>
             </div>
 

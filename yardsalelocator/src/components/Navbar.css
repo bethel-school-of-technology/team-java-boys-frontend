@@ -9,7 +9,7 @@
   
   #basic-navbar-nav {
     font-size: 1.2rem;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
   }
   
