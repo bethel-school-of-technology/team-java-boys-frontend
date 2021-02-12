@@ -114,6 +114,9 @@ export default class Posts extends Component {
 					<Button>
 						<Link to="/createpost">Create New Post </Link>
 					</Button>
+					<Button>
+						<Link to="/editpost">Edit Post </Link>
+					</Button>
 				</div>
 			</>
 		);
