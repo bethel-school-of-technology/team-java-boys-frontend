@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Button } from "reactstrap";
 import moment from "moment";
 import "react-table/react-table.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 
 export default class Posts extends Component {
