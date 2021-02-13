@@ -41,13 +41,18 @@ export class EditPost extends Component {
 			// address: "",
         };
         this.handleChange = this.handleChange.bind(this);
+        this.handleDateChange = this.handleDateChange.bind(this);
+        this.handleEndTime = this.handleEndTime.bind(this);
+        this.handleStartTime = this.handleStartTime.bind(this);
+        this.handleSelectionChange = this.handleSelectionChange.bind(this);
     }
 
     handleChange = (event) => {
 		this.setState({ [event.target.name]: event.target.value });
 	};
 
-    handleSubmit= (e) =>{
+    
+    handleSubmit=(e)=> {
 		e.preventDefault();
 		const data = {
 			streetAddress: this.state.streetAddress,
@@ -135,30 +140,8 @@ reRender = () => {
             <div>   
                 <p><b>Current Address:</b> {this.state.post.address}
                 </p>
-                <h4>Edit Address</h4>
+                <b>To change location, please create a new post</b>
                  <form onSubmit={this.handleSubmit}>
-                    <label>
-                        {" "}
-                        Street Address:
-                        <input type="text" name="streetAddress" placeholder={this.state.post.streetAddress} onChange={this.handleChange} />
-                    </label>
-                    <br />
-                    <label>
-                        {" "}
-                        City:
-                        <input type="text" name="city" placeholder={this.state.post.city} onChange={this.handleChange} />
-                    </label>
-                    <label>
-                        {" "}
-                        State:
-                        <input type="text" name="state" placeholder={this.state.post.state} onChange={this.handleChange} />
-                    </label>
-                    <label>
-                        {" "}
-                        Zip:
-                        <input type="text" name="zip" placeholder={this.state.post.zip} onChange={this.handleChange} />
-                    </label>
-                    <br />
                     <br />
                         <p><b>Current Start Date: </b>
                         {moment(this.state.post.startDate).format("MMM Do YYYY")} <b>Current End Date: </b>
@@ -204,7 +187,7 @@ reRender = () => {
 						/>
 					</div>
                     <br/>
-                    {/* <p><b>Categories:</b>
+                    <p><b>Categories:</b>
                     {this.state.post.categories}
                     </p>
                     <h4>Change Categories</h4>
@@ -215,7 +198,7 @@ reRender = () => {
 						className="basic-multi-select"
 						classNamePrefix="select"
 						onChange={this.handleSelectionChange}
-					/> */}
+					/>
                         <button type="submit">
                             Submit
                         </button>
