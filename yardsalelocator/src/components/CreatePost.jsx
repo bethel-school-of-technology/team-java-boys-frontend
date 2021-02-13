@@ -50,17 +50,19 @@ export class CreatePost extends Component {
 	handleClickOpen = (e) => {
 		e.preventDefault();
 		console.log(this.state);
+		let zipReg = /^[0-9]{5}(?:-[0-9]{4})?$/;
+		let stateReg= /^([Aa][LKSZRAEPlkszraep]|[Cc][AOTaot]|[Dd][ECec]|[Ff][LMlm]|[Gg][AUau]|[Hh][Ii]|[Ii][ADLNadln]|[Kk][SYsy]|[Ll][Aa]|[Mm][ADEHINOPSTadehinopst]|[Nn][CDEHJMVYcdehjmvy]|[Oo][HKRhkr]|[Pp][ARWarw]|[Rr][Ii]|[Ss][CDcd]|[Tt][NXnx]|[Uu][Tt]|[Vv][AITait]|[Ww][AIVYaivy])$/;
 		if(this.state.streetAddress === ""){
 			alert("Please enter a street address");
 			return;
 		}if(this.state.city === ""){
 			alert("Please enter a city");
 			return;
-		}if(this.state.state === ""){
-			alert("Please enter a state");
+		}if((this.state.state === "") || !(stateReg.test(this.state.state))){
+			alert("Please enter a valid abbreviated state");
 			return;
-		}if(this.state.zip === ""){
-			alert("Please enter a zip code");
+		}if((this.state.zip === "") || !(zipReg.test(this.state.zip)) ){
+			alert("Please enter a valid 5 digit zip code");
 			return;
 		}if((this.state.startDate === "") || (this.state.endDate === "")){
 			alert("Please enter a start/end date");

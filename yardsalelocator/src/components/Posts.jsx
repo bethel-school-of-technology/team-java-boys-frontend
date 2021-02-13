@@ -45,13 +45,44 @@ export default class Posts extends Component {
 		this.getPostData();
 	}
 
+	editPost(id) {
+		// console.log("Edit post reached, id: " + id);
+		window.localStorage.setItem("postId", id);
+		this.props.history.push(`/editpost/${id}`);
+	}
+
+	deletePost(id) {
+		let axiosConfig = {
+			headers: {
+				Authorization: localStorage.getItem("userToken"),
+				"Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "http://localhost:3000"
+			},
+		};
+		let url = ("http://localhost:8080/post/" + id);
+		axios.delete(url, axiosConfig)
+		.then((response) => console.log("Success:", response))
+		.then(window.location.reload());
+	}
+
 
 	render() {
 		const columns = [
 			{
-				Header: "ID",
-				accessor: "id",
-				width: '40'
+				Header: "Edit",
+				width: '100',
+				Cell: ({ original }) => (<button value={original.id} onClick={ () => this.editPost(original.id)} >  
+				Edit 
+				
+					</button>)					
+			},
+			{
+				Header: "Delete",
+				width: '100',
+				Cell: ({ original }) => (<button value={original.id} onClick={ () => this.deletePost(original.id)} >  
+				Delete 
+				
+					</button>)					
 			},
 			{
 				Header: "Street Address",
