@@ -47,6 +47,26 @@ export default class Posts extends Component {
 		this.getPostData();
 	}
 
+	editPost(id) {
+		// console.log("Edit post reached, id: " + id);
+		window.localStorage.setItem("postId", id);
+		this.props.history.push(`/editpost/${id}`);
+	}
+
+	deletePost(id) {
+		let axiosConfig = {
+			headers: {
+				Authorization: localStorage.getItem("userToken"),
+				"Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "http://localhost:3000"
+			},
+		};
+		let url = ("http://localhost:8080/post/" + id);
+		axios.delete(url, axiosConfig)
+		.then((response) => console.log("Success:", response))
+		.then(window.location.reload());
+	}
+
 
 	postsListings() {
 		let post = this.state.post;
@@ -78,7 +98,6 @@ export default class Posts extends Component {
 
 
 	render() {
-		
 		return (
 			<>
 				<h1>Yard Sale Postings</h1>
@@ -86,7 +105,7 @@ export default class Posts extends Component {
 						<Link to="/createpost">Create New Post </Link>
 				</Button>
 				{this.postsListings()}
-				
+
 			</>
 		);
 	}

@@ -13,7 +13,7 @@ margin: auto;
 }
 
 .navigationButton{
-  top: 3vh;
+  top: 4vh;
  }
 
 .marker {
@@ -271,7 +271,7 @@ margin: auto;
    }
 
    .navigationButton{
-    top: 10vh;
+    top: 11vh;
    }
 
   .mapboxgl-ctrl-geocoder.mapboxgl-ctrl-geocoder--collapsed {

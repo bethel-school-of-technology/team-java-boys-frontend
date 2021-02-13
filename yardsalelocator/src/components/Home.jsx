@@ -181,6 +181,7 @@ class Home extends Component {
           onViewportChange={this.handleViewportChange}
           mapboxApiAccessToken={MAPBOX_TOKEN}
           position="top-left"
+		  countries= 'us'
         />
 					{Object.keys(this.state.userLocation).length !== 0 ? (
 						<Marker latitude={this.state.userLocation.lat} longitude={this.state.userLocation.long}>

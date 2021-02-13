@@ -65,7 +65,7 @@ export class Login extends Component {
 						<input type="password" name="password" onChange={this.handleChange} />
                     </label>
                     <br />
-                    <button className="btn btn-default" type="submit">
+                    <button type="submit">
                         Submit
 					</button>
                 </div>
