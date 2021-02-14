@@ -77,7 +77,7 @@ export default class Posts extends Component {
 					<div className="card">
 						<Card className="text-center" border="primary">
 							<Card.Header>
-								<b>Yard Sale Posting</b>
+								<b>Yard Sale Posting {post.id}</b>
 							</Card.Header>
 							<Card.Body>
 								<Card.Text id="address">{post.address}</Card.Text>
