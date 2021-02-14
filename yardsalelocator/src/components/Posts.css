@@ -1,0 +1,17 @@
+
+  .card {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background-color: rgba(245, 245, 245, 0.4);
+  }
+
+  .heading{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
+
+
+
+  /* .card-header, .card-footer { opacity: 8}  */

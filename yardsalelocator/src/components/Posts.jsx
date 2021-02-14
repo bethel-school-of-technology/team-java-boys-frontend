@@ -6,6 +6,7 @@ import { Button } from "reactstrap";
 import moment from "moment";
 import "react-table/react-table.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./Posts.css";
 
 export default class Posts extends Component {
 	constructor(props) {
@@ -75,12 +76,15 @@ export default class Posts extends Component {
 			return post.map((post) => {
 				return (
 					<div className="card">
-						<Card className="text-center" border="primary">
+						<Card className="text-center" style={{ width: '35rem' }}>
 							<Card.Header>
 								<b>Yard Sale Posting {post.id}</b>
 							</Card.Header>
 							<Card.Body>
-								<Card.Text id="address">{post.address}</Card.Text>
+								<Card.Subtitle className="mb-2 text-muted">
+									<b>Address</b>
+								</Card.Subtitle>
+								<Card.Text id="address" >{post.address}</Card.Text>
 								<Card.Subtitle className="mb-2 text-muted">
 									<b>Starting Date | Ending Date</b>
 								</Card.Subtitle>
@@ -98,16 +102,17 @@ export default class Posts extends Component {
 								<Card.Text id="categories">
 									<b>Categories: </b> {post.categories}
 								</Card.Text>
-								<Button value={post.id} onClick={() => this.editPost(post.id)}>
+								
+							</Card.Body>
+							<Card.Footer id="footer">
+								<Button variant="info" value={post.id} onClick={() => this.editPost(post.id)}>
 									Edit Post
 								</Button>{" "}
 								<span> </span>
-								<Button value={post.id} onClick={() => this.deletePost(post.id)}>
+								<Button variant="danger" value={post.id} onClick={() => this.deletePost(post.id)}>
 									{" "}
 									Delete Post
 								</Button>
-							</Card.Body>
-							<Card.Footer id="footer">
 							</Card.Footer>
 						</Card>
 						<br />
@@ -120,11 +125,12 @@ export default class Posts extends Component {
 	render() {
 		return (
 			<>
-				<h1>Yard Sale Postings</h1>
+				<h1 class ="heading">Yard Sale Postings</h1>
 				<Button>
 					<Link to="/createpost">Create New Post </Link>
 				</Button>
 				{this.postsListings()}
+
 			</>
 		);
 	}
