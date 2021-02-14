@@ -114,7 +114,6 @@ reRender = () => {
 		this.setState({
 			endTime: endTime,
 		});
-		this.checkState();
 	}
 
 	handleStartTime(startTime) {
@@ -193,7 +192,7 @@ reRender = () => {
                     <h4>Change Categories</h4>
 					<Select
 						isMulti
-						value={this.state.categories.label}
+						// value={this.state.post.categories.label}
 						options={categoryOptions}
 						className="basic-multi-select"
 						classNamePrefix="select"
