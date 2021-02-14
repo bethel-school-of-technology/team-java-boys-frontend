@@ -46,7 +46,7 @@ export class EditProfile extends Component {
         // console.log(JSON.stringify(data));
 		let axiosConfig = {
 			headers: {
-				Authorization: localStorage.getItem("userToken"),
+				"Authorization": localStorage.getItem("userToken"),
 				"Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "http://localhost:3000"
 			},
