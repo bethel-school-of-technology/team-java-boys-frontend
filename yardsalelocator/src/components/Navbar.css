@@ -1,25 +1,19 @@
-.navbar {
-    background: linear-gradient(90deg, rgb(248, 235, 200) 0%, rgb(69, 112, 252) 100%);
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+ .navbar {
+    background: linear-gradient(90deg, rgb(248, 235, 200) 0%, #4570fc 100%);
+  }
+
+  #navLogo{    
+    font-size: 1.4rem;
+    color: rgb(32, 27, 53);
+  }
+  
+  #basic-navbar-nav {
     font-size: 1.2rem;
-    position: sticky;
-    top: 0;
-    z-index: 999;
-    margin-bottom: 20px;
-  }
-  
-  .navbar-container {
-    display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    height: 80px;
-    max-width: 100vw;
   }
   
-  .navbar-logo {
+  /* .navbar-logo {
     color: rgb(7, 7, 7);
     justify-self: start;
     margin-left: 20px;
@@ -31,20 +25,20 @@
     width: 40vw;
     max-height: 80px;
     min-width: 160px;
-  }
+  } */
   
   .nav-menu {
     display: grid;
     grid-template-columns: repeat(6, auto);
     grid-gap: 10px;
     list-style: none;
-    text-align: center;
+    /* text-align: center; */
     max-width: 60vw;
-    justify-content: end;
+    justify-content: right;
     margin-right: 2rem;
   }
   
-  .nav-links {
+ .nav-links  {
     color: rgb(5, 4, 4);
     display: flex;
     align-items: center;
@@ -59,12 +53,3 @@
     transition: all 0.2s ease-out;
   }
   
-  /* .nav-links-mobile {
-    display: none;
-  } */
-  
-  @media screen and (max-width: 960px) {
-    .nav-menu{
-      display: inline-flex;
-    }
-  }
