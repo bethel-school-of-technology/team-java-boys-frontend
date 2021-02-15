@@ -27,7 +27,7 @@ export default class Posts extends Component {
 		const res = await axios.get("http://localhost:8080/post/posts", axiosConfig);
 
 		let postDateData = res.data;
-		console.log(postDateData);
+		// console.log(postDateData);
 		let validPost = [];
 		for (var i = 0; i < postDateData.length; i++) {
 			let endPostDate = moment(postDateData[i].endDate).format();
@@ -39,7 +39,7 @@ export default class Posts extends Component {
 				validPost.push(postDateData[i]);
 			}
 		}
-		console.log(validPost);
+		// console.log(validPost);
 		this.setState({ loading: false, post: validPost });
 	}
 
@@ -70,9 +70,9 @@ export default class Posts extends Component {
 
 	postsListings() {
 		let post = this.state.post;
-		console.log(post);
+		// console.log(post);
 		for (var i = 0; i < post.length; i++) {
-			console.log(post[i].id);
+			// console.log(post[i].id);
 			return post.map((post) => {
 				return (
 					<div className="card">

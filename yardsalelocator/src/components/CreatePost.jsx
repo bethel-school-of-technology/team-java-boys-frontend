@@ -49,7 +49,7 @@ export class CreatePost extends Component {
 
 	handleClickOpen = (e) => {
 		e.preventDefault();
-		console.log(this.state);
+		// console.log(this.state);
 		let zipReg = /^[0-9]{5}(?:-[0-9]{4})?$/;
 		let stateReg= /^([Aa][LKSZRAEPlkszraep]|[Cc][AOTaot]|[Dd][ECec]|[Ff][LMlm]|[Gg][AUau]|[Hh][Ii]|[Ii][ADLNadln]|[Kk][SYsy]|[Ll][Aa]|[Mm][ADEHINOPSTadehinopst]|[Nn][CDEHJMVYcdehjmvy]|[Oo][HKRhkr]|[Pp][ARWarw]|[Rr][Ii]|[Ss][CDcd]|[Tt][NXnx]|[Uu][Tt]|[Vv][AITait]|[Ww][AIVYaivy]Alabama|Alaska|Arizona|Arkansas|California|Colorado|Connecticut|Delaware|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New\sHampshire|New\sJersey|New\sMexico|New\sYork|North\sCarolina|North\sDakota|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode\sIsland|South\sCarolina|South\sDakota|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West\sVirginia|Wisconsin|Wyoming)$/;
 		if(this.state.streetAddress === ""){
@@ -188,10 +188,10 @@ export class CreatePost extends Component {
 		this.checkState();
 	}
 
-	checkState() {		
-		console.log(moment(this.state.startTime).format("h:mm:ss a"));
-		console.log(moment(this.state.endTime).format("h:mm:ss a"));
-	}
+	// checkState() {		
+	// 	console.log(moment(this.state.startTime).format("h:mm:ss a"));
+	// 	console.log(moment(this.state.endTime).format("h:mm:ss a"));
+	// }
 
 	handleStartTime(startTime) {
 		this.setState({
@@ -200,12 +200,12 @@ export class CreatePost extends Component {
 	}
 
 	handleDateChange(data, picker) {
-		console.log(picker.startDate + " " + picker.endDate);
+		// console.log(picker.startDate + " " + picker.endDate);
 		this.setState({
 			startDate: picker.startDate,
 			endDate: picker.endDate
 		});
-		console.log(this.state);
+		// console.log(this.state);
 	}
 
 //similiar to the dates/times, but for the category selections
@@ -234,7 +234,7 @@ export class CreatePost extends Component {
 			city : res.data.city,
 			state : res.data.state,
 			zip : res.data.zip });
-		console.log(this.state);
+		// console.log(this.state);
 		}
 	
 

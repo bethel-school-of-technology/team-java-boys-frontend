@@ -65,7 +65,7 @@ export class EditPost extends Component {
             endTime: this.state.endTime,
             categories: this.state.categories,
 		};
-        console.log(data);
+        // console.log(data);
         let axiosConfig = {
 			headers: {
 				Authorization: localStorage.getItem("userToken"),
@@ -98,16 +98,16 @@ reRender = () => {
         let url = ("http://localhost:8080/post/" + this.state.id);
         const res = await axios.get(url, axiosConfig);
         this.setState({ post: res.data });        
-        console.log(this.state.post.streetAddress);
+        // console.log(this.state.post.streetAddress);
     }
 
     handleDateChange(data, picker) {
-		console.log(picker.startDate + " " + picker.endDate);
+		// console.log(picker.startDate + " " + picker.endDate);
 		this.setState({
 			startDate: picker.startDate,
 			endDate: picker.endDate
 		});
-		console.log(this.state);
+		// console.log(this.state);
 	}
 
 	handleEndTime(endTime) {
@@ -136,18 +136,18 @@ reRender = () => {
 
     render () {        
         return (            
-            <div>   
+            <div className="container" style={{padding: "70px"}}>   
                 <p><b>Current Address:</b> {this.state.post.address}
                 </p>
-                <b>To change location, please create a new post</b>
+                <h4>To change location, please create a new post</h4>
                  <form onSubmit={this.handleSubmit}>
                     <br />
                         <p><b>Current Start Date: </b>
                         {moment(this.state.post.startDate).format("MMM Do YYYY")} <b>Current End Date: </b>
                         {moment(this.state.post.endDate).format("MMM Do YYYY")} </p>
-                    <br/>
-                    <h4>Change Start and End Dates:</h4>
-					<div>
+                    {/* <br/> */}
+                    <b>Change Start and End Dates:</b>
+					<div >
 					<DateRangePicker 
 						initialSettings={{ 
                             startDate: moment().toDate(), 
@@ -158,13 +158,13 @@ reRender = () => {
   						<input type="text" className="form-control" />
 					</DateRangePicker>
 					</div>
+                    {/* <br /> */}
                     <br />
-                    <br />
-                        <p><b>Current Start Date: </b>
-                        {moment(this.state.post.startTime).format("h:mm:ss a")} <b>Current End Date: </b>
+                        <p><b>Current Start Time: </b>
+                        {moment(this.state.post.startTime).format("h:mm:ss a")} <b>Current End Time: </b>
                         {moment(this.state.post.endTime).format("h:mm:ss a")} </p>
-                    <br/>
-                    <h4>Change Start and End Times:</h4>                    
+                    {/* <br/> */}
+                    <b>Change Start and End Times:</b>                    
 					<div>
 						<DatePicker
 							placeholderText="Start Time"
@@ -189,7 +189,7 @@ reRender = () => {
                     <p><b>Categories:</b>
                     {this.state.post.categories}
                     </p>
-                    <h4>Change Categories</h4>
+                    <b>Change Categories</b>
 					<Select
 						isMulti
 						// value={this.state.post.categories.label}

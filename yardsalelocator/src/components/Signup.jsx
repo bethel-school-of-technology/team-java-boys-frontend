@@ -27,14 +27,14 @@ export default function SignUp() {
 				.required("Required!")
 			}),
 		onSubmit: values => {
-		console.log(JSON.stringify(values, null, 2));
+		// console.log(JSON.stringify(values, null, 2));
 		const url = "http://localhost:8080/user/register";
 			const data = {
 				email: values.email,
 				username: values.username,
 				password: values.password,
 			};
-			console.log(data);
+			// console.log(data);
 			fetch(url, { method: "POST", body: JSON.stringify(data), headers: { "Content-Type": "application/json" } })
 				.then((res) => res.json())
 				.catch((error) => console.error("Error:", error))
