@@ -44,7 +44,7 @@ export default function SignUp() {
   });
 
   return (
-    <div className="App">
+    <div className="container">
       <h1>Register for an account</h1>
 
       <form onSubmit={formik.handleSubmit}>

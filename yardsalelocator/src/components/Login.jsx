@@ -50,6 +50,7 @@ export class Login extends Component {
             return <Redirect to="/loading" />
         }
         return (
+            <div className="container">
             <form onSubmit={(e) => this.onFormSubmit(e)}>
                 <div>
                     <h1>Log In</h1>
@@ -70,6 +71,7 @@ export class Login extends Component {
 					</button>
                 </div>
             </form>
+            </div>
         )
     }
 }
