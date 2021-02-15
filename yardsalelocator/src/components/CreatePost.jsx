@@ -245,32 +245,32 @@ export class CreatePost extends Component {
 	render() {
 		
 		return (
-			<>
+			<div className="container" style={{padding: "20px"}}>
 			<form onSubmit={this.handleSubmit}>
 				<button onClick={this.getUserData} >Use Default Address</button>
 				<br/>
 				<label>
 					{" "}
-					Street Address:
-					<input type="text" name="streetAddress" onChange={this.handleChange} placeholder={this.state.streetAddress} />
+					Street Address:<br/>
+					<input type="text" name="streetAddress" onChange={this.handleChange} placeholder={this.state.streetAddress} style={{width: "372px"}}/>
 				</label>
 				<br />
 				<label>
 					{" "}
-					City:
-					<input type="text" name="city" onChange={this.handleChange} placeholder={this.state.city}/>
+					City:<br/>
+					<input type="text" name="city" onChange={this.handleChange} placeholder={this.state.city} style={{width: "372px"}}/>
 				</label>
 				<br />
 				<label>
 					{" "}
-					State:
-					<input type="text" name="state" onChange={this.handleChange} placeholder={this.state.state}/>
+					State:<br/>
+					<input type="text" name="state" onChange={this.handleChange} placeholder={this.state.state} style={{width: "372px"}}/>
 				</label>
 				<br />
 				<label>
 					{" "}
-					Zip Code:
-					<input type="text" name="zip" onChange={this.handleChange} placeholder={this.state.zip}/>
+					Zip Code:<br/>
+					<input type="text" name="zip" onChange={this.handleChange} placeholder={this.state.zip} style={{width: "372px"}}/>
 				</label>
 				<br />
 				<label onClick={(e) => e.preventDefault()}>
@@ -331,7 +331,7 @@ export class CreatePost extends Component {
 					<div>
 					{this.dialogConfirm()}
 					</div>
-					</>
+					</div>
 		);
 	}
 }

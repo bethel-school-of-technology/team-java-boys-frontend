@@ -86,7 +86,7 @@ export class EditProfile extends Component {
 
     render () {
         return (
-            <div>
+            <div className="container">
                 <form onSubmit={this.handleSubmit}>
                     <h1> {this.state.user.username}'s Profile</h1>
 				<label>
