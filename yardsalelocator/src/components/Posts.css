@@ -12,6 +12,10 @@
     align-items:center;
   }
 
-
+  .button{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
 
   /* .card-header, .card-footer { opacity: 8}  */

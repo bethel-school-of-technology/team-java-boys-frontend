@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
-import { Button } from "reactstrap";
+import { Button } from "react-bootstrap";
 import moment from "moment";
 import "react-table/react-table.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -126,9 +126,11 @@ export default class Posts extends Component {
 		return (
 			<>
 				<h1 class ="heading">Yard Sale Postings</h1>
-				<Button>
+				<div className="button">
+				<Button  variant="warning">
 					<Link to="/createpost">Create New Post </Link>
 				</Button>
+				</div>
 				{this.postsListings()}
 
 			</>
