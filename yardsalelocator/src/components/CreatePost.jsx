@@ -185,7 +185,7 @@ export class CreatePost extends Component {
 		this.setState({
 			endTime: endTime,
 		});
-		this.checkState();
+		// this.checkState();
 	}
 
 	// checkState() {		
