@@ -49,11 +49,17 @@ class Home extends Component {
 	let postDateData = res.data;
 		let validPost=[];
 		for(var i = 0; i < postDateData.length; i++){
-			let endPostDate = (moment(postDateData[i].endDate).format());
-			let todaysDate= (moment(new Date()).format());
-			if(todaysDate <= endPostDate){;
+			// let endPostDate = (moment(postDateData[i].endDate).format());
+			// let todaysDate= (moment(new Date()).format());
+			// if(todaysDate <= endPostDate){;
+			// 	validPost.push(postDateData[i]);				
+			// } 
+			let daysVariance = (moment(postDateData[i].startDate).diff(new Date(), 'days') +1 );			
+			console.log(daysVariance + ' =>  ' + postDateData[i].startDate);
+			if((daysVariance <= 5) && (daysVariance >= 0)) {
 				validPost.push(postDateData[i]);
-			} 
+				console.log(validPost);
+			}
     };
     this.setState({ yardSaleInformation: validPost });
 	// console.log(this.state);
@@ -197,7 +203,8 @@ class Home extends Component {
 							longitude={parseFloat(this.state.selectedSale.longitude)}
               onClose={this.closePopup}
 						>
-							<p><b>Address: </b>{this.state.selectedSale.address}</p>
+							{localStorage.getItem('userToken') === null ? <p><b>Please Login To View Address </b></p> :
+							<p><b>Address: </b>{this.state.selectedSale.address}</p> }
 							<p><b>Categories: </b>{this.state.selectedSale.categories}</p>
 							<p><b>Dates: </b>{moment(this.state.selectedSale.startDate).format("MMM Do YYYY")} to {moment(this.state.selectedSale.endDate).format("MMM Do YYYY")}</p>
 							<p><b>Time: </b>{moment(this.state.selectedSale.startTime).format("h:mm:ss a")} to {moment(this.state.selectedSale.endTime).format("h:mm:ss a")}</p>

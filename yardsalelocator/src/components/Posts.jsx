@@ -27,19 +27,17 @@ export default class Posts extends Component {
 		const res = await axios.get("http://localhost:8080/post/posts", axiosConfig);
 
 		let postDateData = res.data;
-		// console.log(postDateData);
 		let validPost = [];
 		for (var i = 0; i < postDateData.length; i++) {
 			let endPostDate = moment(postDateData[i].endDate).format();
-			// console.log(endPostDate);
 			let todaysDate = moment(new Date()).format();
-			// console.log(todaysDate);
 			if (todaysDate <= endPostDate) {
-				// console.log(endPostDate + " is after " + todaysDate);
+				validPost.push(postDateData[i]);
+			} else {
+				postDateData[i].expired=true;
 				validPost.push(postDateData[i]);
 			}
 		}
-		// console.log(validPost);
 		this.setState({ loading: false, post: validPost });
 	}
 
@@ -70,15 +68,33 @@ export default class Posts extends Component {
 
 	postsListings() {
 		let post = this.state.post;
-		// console.log(post);
-		for (var i = 0; i < post.length; i++) {
-			// console.log(post[i].id);
+		for (var i = 0; i < post.length; i++) {	
 			return post.map((post) => {
+				console.log(post);		
+					let validPost = "";
+					let daysVariance= (moment(post.startDate).diff(new Date(), 'days'));			
+					console.log(post.startDate);
+					if((daysVariance <= 5) && (daysVariance >= 0)) {
+						validPost= 'LIVE POST'
+					} 
+					else if(daysVariance < 0) {
+						validPost= 'EXPIRED'
+					} 
+					else {
+						validPost = 'Post will go live in ' + (daysVariance - 4)  + ' days';
+					}
+						let classStatus= 'upcoming';
+						if(validPost === 'LIVE POST') {
+							classStatus = 'live'
+						} 
+						else if (validPost === 'EXPIRED') {
+							classStatus = 'expiredCard'
+						}
 				return (
-					<div className="card">
-						<Card className="text-center" style={{ width: '35rem' }}>
+					<div className='card' >
+						<Card className={classStatus} style={{ width: '35rem' }}>
 							<Card.Header>
-								<b>Yard Sale Posting {post.id}</b>
+								<b>{validPost}</b> 								
 							</Card.Header>
 							<Card.Body>
 								<Card.Subtitle className="mb-2 text-muted">
@@ -99,10 +115,12 @@ export default class Posts extends Component {
 									{moment(post.startTime).format("h:mm:ss a")} to{" "}
 									{moment(post.endTime).format("h:mm:ss a")}
 								</Card.Text>
+								<Card.Subtitle className="mb-2 text-muted">
+									<b>Categories: </b>
+								</Card.Subtitle>
 								<Card.Text id="categories">
-									<b>Categories: </b> {post.categories}
-								</Card.Text>
-								
+								{post.categories}
+								</Card.Text>								
 							</Card.Body>
 							<Card.Footer id="footer">
 								<Button variant="info" value={post.id} onClick={() => this.editPost(post.id)}>

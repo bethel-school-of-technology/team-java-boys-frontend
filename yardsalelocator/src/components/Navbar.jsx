@@ -15,7 +15,7 @@ export class MyNavbar extends Component {
                                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                                 <Navbar.Collapse id="basic-navbar-nav">
                                     
-                                <div> {localStorage.getItem('userToken') === null ?
+                    <div> {localStorage.getItem('userToken') === null ?
                     
                     <Nav className="mr-auto">
                             <Link to='/' className='nav-links'>Home</Link>
