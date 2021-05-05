@@ -1,0 +1,29 @@
+
+  .card {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background-color: rgba(245, 245, 245, 0.4);
+  }
+
+  .expiredCard{
+    background-color: rgba(253, 69, 69, 0.4);
+  }
+
+  .upcoming {
+    background-color: rgba(112, 161, 253, 0.4);
+  }
+
+  .heading{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
+
+  .button{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
+
+  /* .card-header, .card-footer { opacity: 8}  */

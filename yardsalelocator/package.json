@@ -1,0 +1,75 @@
+{
+  "name": "yardsalelocator",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.2",
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.3",
+    "@testing-library/user-event": "^12.6.0",
+    "axios": "^0.21.1",
+    "bootstrap": "^4.6.0",
+    "bootstrap-daterangepicker": "^3.1.0",
+    "cloudinary": "^1.24.0",
+    "deck.gl": "^8.4.0",
+    "dotenv": "^8.2.0",
+    "formik": "^2.2.6",
+    "hamburger": "^0.1.1",
+    "hamburger-react": "^2.4.0",
+    "jquery": "^3.5.1",
+    "mapbox-gl": "^2.0.1",
+    "moment": "^2.29.1",
+    "react": "^17.0.1",
+    "react-bootstrap": "^1.4.3",
+    "react-bootstrap-daterangepicker": "^7.0.0",
+    "react-bootstrap-datetimepicker": "0.0.22",
+    "react-datepicker": "^3.4.1",
+    "react-datetime-bootstrap": "^1.4.7",
+    "react-dom": "^17.0.1",
+    "react-geocode": "^0.2.2",
+    "react-map-gl": "^6.0.3",
+    "react-map-gl-geocoder": "^2.1.6",
+    "react-mapbox-gl": "^5.1.1",
+    "react-mapbox-gl-geocoder": "^1.1.0",
+    "react-native-simple-time-picker": "^1.0.11",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.1",
+    "react-select": "^3.2.0",
+    "react-table": "^6.11.5",
+    "react-time-picker": "^4.1.2",
+    "react-validation": "^3.0.7",
+    "reactstrap": "^8.9.0",
+    "validator": "^13.5.2",
+    "web-vitals": "^0.2.4",
+    "yup": "^0.32.8"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
